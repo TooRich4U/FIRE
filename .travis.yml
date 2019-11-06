@@ -9,7 +9,6 @@ android:
     - tools
     - platform-tools
     - build-tools-23.0.3
-    - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
     - $ANDROID_TARGET

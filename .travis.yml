@@ -14,10 +14,11 @@ android:
     - extra-android-m2repository
     - $ANDROID_TARGET
     - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
-script:
-  - ./gradlew build jacocoTestReport assembleAndroidTest
+before_install:
   - curl -Ls -o codacy-coverage-reporter "$(curl -Ls https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r '.assets | map({name, browser_download_url} | select(.name | contains("codacy-coverage-reporter-linux"))) | .[0].browser_download_url')"
   - chmod +x codacy-coverage-reporter
-  - ./codacy-coverage-reporter report -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
+script:
+  - ./gradlew build jacocoTestReport assembleAndroidTest
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - ./codacy-coverage-reporter report -l Java -r build/reports/jacoco/test/jacocoTestReport.xml

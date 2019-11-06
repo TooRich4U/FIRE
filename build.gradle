@@ -31,13 +31,6 @@ ext {
                    rules       : 'com.android.support.test:rules:0.5']
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
-
 allprojects {
     repositories {
         google()

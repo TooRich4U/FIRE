@@ -17,5 +17,8 @@ android:
     - sys-img-armeabi-v7a-android-17
 script:
   - ./gradlew build jacocoTestReport assembleAndroidTest
+  - curl -Ls -o codacy-coverage-reporter "$(curl -Ls https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r '.assets | map({name, browser_download_url} | select(.name | contains("codacy-coverage-reporter-linux"))) | .[0].browser_download_url')"
+  - chmod +x codacy-coverage-reporter
+  - ./codacy-coverage-reporter report -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
 after_success:
   - bash <(curl -s https://codecov.io/bash)

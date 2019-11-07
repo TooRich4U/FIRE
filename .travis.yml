@@ -24,11 +24,6 @@ android:
     - sys-img-x86-android-22
     - sys-img-armeabi-v7a-android-22
 
-licenses:
-  - 'android-sdk-license-.+'
-  - 'android-sdk-preview-license-.+'
-  - 'google-gdk-license-.+'
-
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/

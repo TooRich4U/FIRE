@@ -47,7 +47,7 @@ jobs:
         - ./gradlew build jacocoTestReport assembleAndroidTest
       after_success:
         - bash <(curl -s https://codecov.io/bash)
-        - ./codacy-coverage-reporter report -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
+        - ./codacy-coverage-reporter report -l Java -r app/build/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml
     - stage: simulate
       before_script:
         - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a

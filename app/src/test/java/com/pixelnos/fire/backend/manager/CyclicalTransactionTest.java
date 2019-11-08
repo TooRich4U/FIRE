@@ -1,4 +1,4 @@
-package com.pixelnos.fire.backend.expenseManager;
+package com.pixelnos.fire.backend.manager;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;

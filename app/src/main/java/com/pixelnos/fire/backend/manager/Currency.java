@@ -1,6 +1,4 @@
-package com.pixelnos.fire.backend.expenseManager;
-
-import static java.lang.Math.floor;
+package com.pixelnos.fire.backend.manager;
 
 class Currency {
     private String _name;

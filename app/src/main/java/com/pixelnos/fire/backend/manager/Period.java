@@ -1,4 +1,4 @@
-package com.pixelnos.fire.backend.expenseManager;
+package com.pixelnos.fire.backend.manager;
 
 public enum Period {
 	DAILY, WEEKLY, BIWEEKLY, MONTHLY, QUARTERLY, ANNUALY;

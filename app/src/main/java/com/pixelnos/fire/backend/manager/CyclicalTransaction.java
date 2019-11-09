@@ -45,8 +45,8 @@ public class CyclicalTransaction {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(lastPaymentDate);
 		calendar.add(Calendar.DAY_OF_MONTH, (int) Period.getPeriodInDays(period));
-		newExpense.date = calendar.getTime();
-		lastPaymentDate = newExpense.date;
+		newExpense._date = calendar.getTime();
+		lastPaymentDate = newExpense._date;
 		return newExpense;
 	}
 

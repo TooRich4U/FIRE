@@ -48,18 +48,18 @@ public class CyclicalTransactionTest {
 
 		CyclicalTransaction cyclicalExpense = new CyclicalTransaction(expenseTemplate, period, startingDate);
 		Transaction expense = cyclicalExpense.createPayment();
-		assertEquals(expenseTemplate.amount, expense.amount,0.001);
-		assertEquals(expenseTemplate.location, expense.location);
-		assertEquals(expenseTemplate.tags, expense.tags);
+		assertEquals(expenseTemplate._amount, expense._amount,0.001);
+		assertEquals(expenseTemplate._location, expense._location);
+		assertEquals(expenseTemplate._tags, expense._tags);
 		assertEquals(0, TimeUnit.DAYS.convert(cyclicalExpense.lastPaymentDate().getTime() - nextPaymentDate.getTime(), TimeUnit.MILLISECONDS));
-		assertEquals(0, TimeUnit.DAYS.convert(expense.date.getTime() - nextPaymentDate.getTime(), TimeUnit.MILLISECONDS));
+		assertEquals(0, TimeUnit.DAYS.convert(expense._date.getTime() - nextPaymentDate.getTime(), TimeUnit.MILLISECONDS));
 	}
 
 	private Transaction createExpenseTemplate() {
 		double newAmount = 345.8;
 		String newLocation = "Tokyo";
 		Date today = new Date();
-		ArrayList <String> descriptions = new ArrayList<String>();
+		ArrayList <String> descriptions = new ArrayList<>();
 		descriptions.add("Fees");
 		descriptions.add("Electric bill");
 		return new Transaction(newAmount, newLocation, today, descriptions);

@@ -10,17 +10,16 @@ import java.util.Map;
 import org.junit.Test;
 
 public class ReportTests {
-	public String accountNameAtTest = "MyFirstAccount";
-	public String accountCurrencyAtTest = "EUR";
-	public double accountBalanceAtTest = 1000;
-	Account account = new Account(accountNameAtTest,accountCurrencyAtTest,accountBalanceAtTest);
+	private String accountNameAtTest = "MyFirstAccount";
+	private String accountCurrencyAtTest = "EUR";
+	private double accountBalanceAtTest = 1000;
+	private Account account = new Account(accountNameAtTest,accountCurrencyAtTest,accountBalanceAtTest);
 	private ArrayList <Transaction> createDummyTransactions(int numberOfEntries){
-		ArrayList <String> description = new ArrayList<String>();
-		ArrayList <Transaction> transactions = new ArrayList<Transaction>();
+		ArrayList <String> description = new ArrayList<>();
+		ArrayList <Transaction> transactions = new ArrayList<>();
 		Calendar calendar = Calendar.getInstance();
 		
 		for(int i = 0 ; i < numberOfEntries+1; i ++) {
-			 description = new ArrayList<String>();
 			 description.add("Utilities"); 
 			 description.add("Toys"); 
 			 description.add("Beverages"); 
@@ -32,10 +31,10 @@ public class ReportTests {
 		
 	} 
 	@Test
-	public void reportTransactionByDateType_Debit() {
-		ArrayList <String> description = new ArrayList<String>();
-		ArrayList <Transaction> transactions = new ArrayList<Transaction>(); 
-		ArrayList <Transaction> mondayTransactions = new ArrayList<Transaction>();
+	public void reportDebitTransactionByDateType() {
+		ArrayList <String> description = new ArrayList<>();
+		ArrayList <Transaction> transactions = new ArrayList<>();
+		ArrayList <Transaction> mondayTransactions = new ArrayList<>();
 		description.add("Utilities");
 		description.add("Food");
 		double amount = 10;
@@ -54,9 +53,9 @@ public class ReportTests {
 		account.resetAccount();
 	}
 	@Test
-	public void reportTransactionByDate_Debit() {
-		ArrayList <String> description = new ArrayList<String>();
-		ArrayList <Transaction> transactions = new ArrayList<Transaction>(); 
+	public void reportDebitTransactionByDate() {
+		ArrayList <String> description = new ArrayList<>();
+		ArrayList <Transaction> transactions = new ArrayList<>();
 		description.add("Utilities");
 		description.add("Food");
 		double amount = 10;
@@ -74,13 +73,14 @@ public class ReportTests {
 		assertEquals(transactions,report.getTransactionFromDay(calendar));
 		account.resetAccount();
 	}
+	@Test
 	public void getExpenseBydescription(){
-		ArrayList <String> descriptions = new ArrayList<String>();
+		ArrayList <String> descriptions = new ArrayList<>();
 		descriptions.add("Something");
 		descriptions.add("Food");
 		Transaction expense = new Transaction(100, "", new Date(), descriptions); 
 		account.addDebit(expense);   
-		ArrayList <Transaction> expensesByDescription = new ArrayList<Transaction>();
+		ArrayList <Transaction> expensesByDescription = new ArrayList<>();
 		expensesByDescription.add(expense); 
 		Reporter report = new Reporter(account);
 		assertEquals(expensesByDescription, report.getExpensesByDescription("Something"));
@@ -88,7 +88,7 @@ public class ReportTests {
 	}
 	@Test
 	public void getCurrentRecordedTags() {
-		ArrayList <String> descriptions = new ArrayList<String>();
+		ArrayList <String> descriptions = new ArrayList<>();
 		descriptions.add("Something");
 		descriptions.add("Food");
 		Transaction expense = new Transaction(100, "", new Date(), descriptions); 
@@ -98,14 +98,15 @@ public class ReportTests {
 		assertEquals(descriptions,report.getCurrentExpensesTags()); 
 		account.resetAccount();
 	}
+	@Test
 	public void getTagsUsage() {
-		ArrayList <String> descriptions1 = new ArrayList<String>();
+		ArrayList <String> descriptions1 = new ArrayList<>();
 		descriptions1.add("Something");
 		descriptions1.add("Food"); 
-		ArrayList <String> descriptions2 = new ArrayList<String>();
+		ArrayList <String> descriptions2 = new ArrayList<>();
 		descriptions2.add("Something");
 		descriptions2.add("Food"); 
-		ArrayList <String> descriptions3 = new ArrayList<String>();
+		ArrayList <String> descriptions3 = new ArrayList<>();
 		descriptions3.add("Something");
 		descriptions3.add("Food"); 
 		Map<String,Long> occurrencies = new HashMap<>();
@@ -124,7 +125,7 @@ public class ReportTests {
 		account.addDebit(new Transaction(102, "", null, null));  
 		account.addDebit(new Transaction(103, "", null, null)); 
 		Reporter report = new Reporter(account);
-		assertEquals(101,report.getExpensebyIndex(0).amount,0.01);
+		assertEquals(101,report.getExpensebyIndex(0)._amount,0.01);
 		account.resetAccount();
 	}
 	@Test 
@@ -134,7 +135,7 @@ public class ReportTests {
 		account.addCredit(new Transaction(103, "", null, null));
 		
 		Reporter report = new Reporter(account);
-		assertEquals(101,report.getCreditbyIndex(0).amount,0.01);
+		assertEquals(101,report.getCreditbyIndex(0)._amount,0.01);
 		account.resetAccount();
 	}
 	@Test
@@ -146,5 +147,6 @@ public class ReportTests {
 		for(Transaction transaction : transactions) account.addCredit(transaction);
 		assertEquals(41,report.getBankBookCreditEntries());
 	}
+
 	
 }

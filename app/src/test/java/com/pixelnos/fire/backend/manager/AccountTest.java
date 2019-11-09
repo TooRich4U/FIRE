@@ -12,10 +12,10 @@ import org.junit.Test;
 
 public class AccountTest {
 	
-	public String accountNameAtTest = "MyFirstAccount";
-	public String accountCurrencyAtTest = "EUR";
-	public double accountBalanceAtTest = 1000;
-	Account account = new Account(accountNameAtTest,accountCurrencyAtTest,accountBalanceAtTest);
+	private String accountNameAtTest = "MyFirstAccount";
+	private String accountCurrencyAtTest = "EUR";
+	private double accountBalanceAtTest = 1000;
+	private Account account = new Account(accountNameAtTest,accountCurrencyAtTest,accountBalanceAtTest);
 	
 	@Test
 	public void createAccount() {

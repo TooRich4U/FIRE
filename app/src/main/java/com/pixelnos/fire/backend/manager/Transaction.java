@@ -25,4 +25,15 @@ public class Transaction {
 		_tags = newTransaction._tags;
 		_type = newTransaction. _type;
 	}
+
+    public String toYML() {
+		String tags = "";
+		for(String tag : _tags){
+			tags += "  - " + tag + "\n";
+		}
+		return String.format("amount: %.2f\n" +
+				"location: %s\n" +
+				"date: %s\n" +
+				"tags:\n%s" ,_amount,_location,_date.toString(), tags);
+    }
 }

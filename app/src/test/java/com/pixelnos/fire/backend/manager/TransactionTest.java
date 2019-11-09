@@ -22,4 +22,20 @@ public class TransactionTest {
 		assertEquals(descriptions,transaction._tags);
 	}
 
+	@Test
+	public void toYML(){
+		double newAmount = 345.8;
+		String newLocation = "Tokyo";
+		Date today = new Date();
+		ArrayList <String> descriptions = new ArrayList<>();
+		descriptions.add("Something");
+		descriptions.add("Food");
+		Transaction transaction = new Transaction(newAmount, newLocation, today, descriptions);
+		assertEquals(
+				"amount: 345.80\n" +
+						"location: Tokyo\n" +
+						"date: " + today.toString() + "\n" +
+						"tags:\n"+"  - " + descriptions.get(0)+"\n  - " + descriptions.get(1) +"\n", transaction.toYML());
+	}
+
 }

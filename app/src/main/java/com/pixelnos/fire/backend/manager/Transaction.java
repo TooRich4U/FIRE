@@ -4,24 +4,25 @@ import java.util.Date;
 
 public class Transaction {
 
-	public double amount;
-	public String location;
-	public Date date;
-	public ArrayList<String> tags; 
-	public String type;
+	public double _amount;
+	public String _location;
+	public Date _date;
+	public ArrayList<String> _tags;
+	public String _type;
 	
 	
-	public Transaction(double newAmount, String newLocation, Date newDate, ArrayList<String> newTags) {
-		amount = newAmount;
-		location = newLocation;
-		date = newDate; 
-		tags = newTags;
+	public Transaction(double amount, String location, Date date, ArrayList<String> tags) {
+		_amount = amount;
+		_location = location;
+		_date = date;
+		_tags = tags;
 	}
 
 	public Transaction(Transaction newTransaction) { 
-		amount = newTransaction.amount;
-		location = newTransaction.location;
-		date = newTransaction.date; 
-		tags = newTransaction.tags;
+		_amount = newTransaction._amount;
+		_location = newTransaction._location;
+		_date = newTransaction._date;
+		_tags = newTransaction._tags;
+		_type = newTransaction. _type;
 	}
 }

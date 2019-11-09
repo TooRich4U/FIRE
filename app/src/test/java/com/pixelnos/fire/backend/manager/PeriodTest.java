@@ -11,6 +11,7 @@ public class PeriodTest {
 		assertEquals(14, Period.getPeriodInDays(Period.BIWEEKLY),0.01);
 		assertEquals(30.44, Period.getPeriodInDays(Period.MONTHLY),0.01);
 		assertEquals(91.31, Period.getPeriodInDays(Period.QUARTERLY),0.01);
-		assertEquals(365.24, Period.getPeriodInDays(Period.ANNUALY),0.01);
+		assertEquals(365.24, Period.getPeriodInDays(Period.ANNUALLY),0.01);
+
 	}
 }

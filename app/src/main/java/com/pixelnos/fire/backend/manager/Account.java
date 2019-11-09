@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class Account {
 	
 	public static class AccountData {
-		public String name;
-		public String currency;
-		public double balance;
-		public double initialBalance; 
+		public String _name;
+		public String _currency;
+		public double _balance;
+		public double _initialBalance;
 		public AccountData() { }
 	}
 	public static class BankBook {
@@ -22,30 +22,30 @@ public class Account {
 	public AccountData data = new AccountData();
 	public BankBook bankBook = new BankBook(new ArrayList<Transaction>(), new ArrayList<Transaction>());
 
-	public Account(String accountName, String accountCurrency, double accountBalance) {
-		data.name = accountName;
-		data.currency = accountCurrency;
-		data.balance =  accountBalance;
-		data.initialBalance =  accountBalance; 
+	public Account(String name, String currency, double balance) {
+		data._name = name;
+		data._currency = currency;
+		data._balance =  balance;
+		data._initialBalance =  balance;
 	}
 	
 	public void addDebit(Transaction expense) {
 		bankBook.debits.add(expense); 
-		updateAccountBalance(-expense.amount);
+		updateAccountBalance(-expense._amount);
 	}
 	
 	public void addCredit(Transaction credit) {
 		bankBook.credits.add(credit);
-		updateAccountBalance(credit.amount); 
+		updateAccountBalance(credit._amount);
 	}
 	
 	private void updateAccountBalance(double amount) {
-		data.balance +=amount;
+		data._balance +=amount;
 	}
 	
 	public void resetAccount() {
 		bankBook = new BankBook(new ArrayList<Transaction>(), new ArrayList<Transaction>());
-		data.balance = data.initialBalance;
+		data._balance = data._initialBalance;
 	}  
 	
 	

@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Account {
-
 	public class AccountData {
 		public String _name;
 		public String _currency;
 		public double _balance;
 		public double _initialBalance;
-		public AccountData() { }
 	}
 	public class BankBook {
 		public ArrayList<Transaction> debits;

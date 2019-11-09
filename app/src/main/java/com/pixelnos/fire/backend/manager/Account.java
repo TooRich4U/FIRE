@@ -1,23 +1,18 @@
 package com.pixelnos.fire.backend.manager;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
 public class Account {
 
-
-
-	public static class AccountData {
+	public class AccountData {
 		public String _name;
 		public String _currency;
 		public double _balance;
 		public double _initialBalance;
 		public AccountData() { }
 	}
-	public static class BankBook {
+	public class BankBook {
 		public ArrayList<Transaction> debits;
 		public ArrayList<Transaction> credits;
 		public BankBook(ArrayList<Transaction> debits, ArrayList<Transaction> credits) {
@@ -56,6 +51,7 @@ public class Account {
 			updateAccountBalance(credit._amount);
 		}
 	}
+
 	private void updateAccountBalance(double amount) {
 		data._balance +=amount;
 	}

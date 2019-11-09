@@ -4,8 +4,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import dalvik.annotation.TestTarget;
-
 import static org.junit.Assert.assertEquals;
 
 public class WalletTest {
@@ -14,8 +12,8 @@ public class WalletTest {
         Wallet wallet = new Wallet();
         ArrayList<Account> walletList = new ArrayList<>();
         Account account1 = new Account("Something", "EUR ", 10000);
-        Account account2 = new Account("Something", "EUR ", 10000);
-        Account account3 = new Account("Something", "EUR ", 10000);
+        Account account2 = new Account("Something2", "EUR ", 10000);
+        Account account3 = new Account("Something3", "EUR ", 10000);
         wallet.add(account1);
         wallet.add(account2);
         wallet.add(account3);
@@ -26,7 +24,7 @@ public class WalletTest {
     }
 
     @Test
-    public void AddAndRemoveAccount(){
+    public void addAndRemoveAccount(){
         Wallet wallet = new Wallet();
         ArrayList<Account> walletList = new ArrayList<>();
         Account account1 = new Account("Something", "EUR ", 10000);
@@ -46,16 +44,25 @@ public class WalletTest {
     public void sumOfWallet() {
         Wallet wallet = new Wallet();
         ArrayList<Account> walletList = new ArrayList<>();
-        Account account1 = new Account("Something", "EUR ", 10000);
-        Account account2 = new Account("Something", "EUR ", 10000);
-        Account account3 = new Account("Something", "EUR ", 10000);
+        Account account1 = new Account("Something", "EUR", 10000);
+        Account account2 = new Account("Something", "EUR", 10000);
+        Account account3 = new Account("Something", "EUR", 10000);
         wallet.add(account1);
         wallet.add(account2);
         wallet.add(account3);
         walletList.add(account1);
         walletList.add(account2);
         walletList.add(account3);
-        assertEquals(wallet.balanceOf("Something"), 10000,0.01);
+        assertEquals(wallet.balanceOf("Something","EUR"), 10000,0.01);
+
+    }
+
+    public void checkWalletDuplicates(){
+        Wallet wallet = new Wallet();
+        ArrayList<Account> walletList = new ArrayList<>();
+        Account account1 = new Account("Something", "EUR ", 10000);
+        Account account2 = new Account("Something", "EUR ", 10000);
+        Account account3 = new Account("Something2", "EUR ", 10000);
 
     }
 }

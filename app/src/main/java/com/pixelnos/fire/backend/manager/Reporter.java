@@ -17,7 +17,7 @@ public class Reporter{
 	public ArrayList<Transaction> getDebitTransactionByWeekDay(int weekDayToSearch) {
 		ArrayList<Transaction> searchedTransactions = new  ArrayList<>();
 		Calendar transactionDate = Calendar.getInstance();
-		for(Transaction transaction : account.bankBook.debits) {
+		for(Transaction transaction : account.bankBook.debits ) {
 			transactionDate.setTime(transaction._date);
 			if(transactionDate.get(Calendar.DAY_OF_WEEK) == weekDayToSearch) searchedTransactions.add(transaction);
 		}

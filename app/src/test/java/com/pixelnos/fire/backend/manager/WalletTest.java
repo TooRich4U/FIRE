@@ -18,7 +18,7 @@ public class WalletTest {
     }
 
     @Test
-    public void addAndRemoveAccount(){
+    public void addAndRemoveAccount() {
         Wallet wallet = new Wallet();
         ArrayList<Account> walletList = new ArrayList<>();
         Account account1 = new Account("Something", "EUR ", 10000);
@@ -47,16 +47,8 @@ public class WalletTest {
         walletList.add(account1);
         walletList.add(account2);
         walletList.add(account3);
-        assertEquals(wallet.balanceOf("Something","EUR"), 10000,0.01);
+        assertEquals(wallet.balanceOf("Something", "EUR"), 10000, 0.01);
 
     }
 
-    public void checkWalletDuplicates(){
-        Wallet wallet = new Wallet();
-        ArrayList<Account> walletList = new ArrayList<>();
-        Account account1 = new Account("Something", "EUR ", 10000);
-        Account account2 = new Account("Something", "EUR ", 10000);
-        Account account3 = new Account("Something2", "EUR ", 10000);
-
-    }
 }

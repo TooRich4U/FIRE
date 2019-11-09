@@ -10,10 +10,10 @@ import java.util.Map;
 import org.junit.Test;
 
 public class ReportTests {
-	public String accountNameAtTest = "MyFirstAccount";
-	public String accountCurrencyAtTest = "EUR";
-	public double accountBalanceAtTest = 1000;
-	Account account = new Account(accountNameAtTest,accountCurrencyAtTest,accountBalanceAtTest);
+	private String accountNameAtTest = "MyFirstAccount";
+	private String accountCurrencyAtTest = "EUR";
+	private double accountBalanceAtTest = 1000;
+	private Account account = new Account(accountNameAtTest,accountCurrencyAtTest,accountBalanceAtTest);
 	private ArrayList <Transaction> createDummyTransactions(int numberOfEntries){
 		ArrayList <String> description = new ArrayList<>();
 		ArrayList <Transaction> transactions = new ArrayList<>();
@@ -31,7 +31,7 @@ public class ReportTests {
 		
 	} 
 	@Test
-	public void reportTransactionByDateType_Debit() {
+	public void reportDebitTransactionByDateType() {
 		ArrayList <String> description = new ArrayList<>();
 		ArrayList <Transaction> transactions = new ArrayList<>();
 		ArrayList <Transaction> mondayTransactions = new ArrayList<>();
@@ -53,7 +53,7 @@ public class ReportTests {
 		account.resetAccount();
 	}
 	@Test
-	public void reportTransactionByDate_Debit() {
+	public void reportDebitTransactionByDate() {
 		ArrayList <String> description = new ArrayList<>();
 		ArrayList <Transaction> transactions = new ArrayList<>();
 		description.add("Utilities");

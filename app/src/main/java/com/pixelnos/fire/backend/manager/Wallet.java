@@ -11,7 +11,5 @@ public class Wallet {
     public void delete(Account account){
         accounts.remove(account);
     }
-    public double balanceOf(Account account) {
-        return account.data._balance;
-    }
+
 }

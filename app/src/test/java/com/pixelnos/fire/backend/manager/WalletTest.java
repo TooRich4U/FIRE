@@ -35,12 +35,5 @@ public class WalletTest {
     }
 
 
-    @Test
-    public void sumOfWallet() {
-        Wallet wallet = new Wallet();
-        Account account1 = new Account("Something", "EUR", 10000);
-        wallet.add(account1);
-        assertEquals(wallet.balanceOf(account1), account1.data._balance,0.01);
-    }
 
 }

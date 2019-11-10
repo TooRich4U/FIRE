@@ -105,21 +105,9 @@ public class AccountTest {
 	public void sortTransactions(){
 		ArrayList<Transaction> transactions = createDummyTransactions(10);
 		transactions.sort(new TransactionSorter());
-		printOutRandomTransactions(transactions);
 		account.addDebits(transactions);
 		account.bankBook.debits.sort(new TransactionSorter());
-		printOutAccountTransactions();
 		assertEquals(transactions,account.bankBook.debits);
-	}
-
-	private void printOutRandomTransactions(ArrayList<Transaction> transactions) {
-		System.out.print("Random Generated Dates : " + "\n");
-		for(Transaction transaction : transactions) System.out.print(transaction._date + " " + transaction._amount + "\n");
-	}
-
-	private void printOutAccountTransactions() {
-		System.out.print("Account Balance : " + account.data._balance + "\n");
-		for(Transaction transaction : account.bankBook.debits) System.out.print(transaction._date + "\n");
 	}
 
 	class TransactionSorter implements Comparator<Transaction> {

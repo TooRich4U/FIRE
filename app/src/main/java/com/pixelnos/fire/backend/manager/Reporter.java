@@ -63,10 +63,10 @@ public class Reporter{
 		return usage;
 	}
 
-	public Transaction getExpensebyIndex(int index) { 
+	public Transaction getExpenseByIndex(int index) {
 		return account.bankBook.debits.get(index); 
 	}
-	public Transaction getCreditbyIndex(int index) { 
+	public Transaction getCreditByIndex(int index) {
 		return account.bankBook.credits.get(index); 
 	}
 	public long getBankBookDebitEntries() {

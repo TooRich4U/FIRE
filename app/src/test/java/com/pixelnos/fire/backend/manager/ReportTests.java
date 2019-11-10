@@ -18,7 +18,6 @@ public class ReportTests {
 		ArrayList <String> description = new ArrayList<>();
 		ArrayList <Transaction> transactions = new ArrayList<>();
 		Calendar calendar = Calendar.getInstance();
-		
 		for(int i = 0 ; i < numberOfEntries+1; i ++) {
 			 description.add("Utilities"); 
 			 description.add("Toys"); 
@@ -29,7 +28,24 @@ public class ReportTests {
 		}
 		return transactions;
 		
-	} 
+	}
+
+	private ArrayList <Transaction> createRandomTransactions(int numberOfEntries){
+		ArrayList <String> description = new ArrayList<>();
+		ArrayList <Transaction> transactions = new ArrayList<>();
+		Calendar calendar = Calendar.getInstance();
+		for(int i = 0 ; i < numberOfEntries+1; i ++) {
+			description.add("Utilities");
+			description.add("Toys");
+			description.add("Beverages");
+			description.add("Restaurants");
+			double amount =  (Math.random() * (100));
+			calendar.set(2019,1,1+i,1,1,1);
+			transactions.add(new Transaction(amount,"Paris",calendar.getTime(),description));
+		}
+		return transactions;
+
+	}
 	@Test
 	public void reportDebitTransactionByDateType() {
 		ArrayList <String> description = new ArrayList<>();
@@ -125,7 +141,7 @@ public class ReportTests {
 		account.addDebit(new Transaction(102, "", null, null));  
 		account.addDebit(new Transaction(103, "", null, null)); 
 		Reporter report = new Reporter(account);
-		assertEquals(101,report.getExpensebyIndex(0)._amount,0.01);
+		assertEquals(101,report.getExpenseByIndex(0)._amount,0.01);
 		account.resetAccount();
 	}
 	@Test 
@@ -135,9 +151,10 @@ public class ReportTests {
 		account.addCredit(new Transaction(103, "", null, null));
 		
 		Reporter report = new Reporter(account);
-		assertEquals(101,report.getCreditbyIndex(0)._amount,0.01);
+		assertEquals(101,report.getCreditByIndex(0)._amount,0.01);
 		account.resetAccount();
 	}
+
 	@Test
 	public void getBankBookEntries() {
 		ArrayList <Transaction> transactions = createDummyTransactions(40);

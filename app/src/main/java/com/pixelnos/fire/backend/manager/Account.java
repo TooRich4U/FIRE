@@ -10,6 +10,7 @@ public class Account {
 		public double _balance;
 		public double _initialBalance;
 	}
+
 	public class BankBook {
 		public ArrayList<Transaction> debits;
 		public ArrayList<Transaction> credits;

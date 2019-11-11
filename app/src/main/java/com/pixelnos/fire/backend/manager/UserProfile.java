@@ -2,27 +2,27 @@ package com.pixelnos.fire.backend.manager;
 
 public class UserProfile {
 
-    private ProfileData _userData;
-    private Wallet _wallet;
+    private ProfileData userData;
+    private Wallet wallet;
 
     public static class ProfileData{
-        public int _age;
-        public String _job;
-        public double _salary;
-        public double _savings;
-        public double _passiveIncomeStart;
-        public double _passiveIncomeTarget;
-        public double _fireTarget;
-        public String _currency;
+        public int age;
+        public String job;
+        public double salary;
+        public double savings;
+        public double passiveIncomeStart;
+        public double passiveIncomeTarget;
+        public double fireTarget;
+        public String currency;
     }
 
     public UserProfile(ProfileData newUserData, Wallet wallet) {
-        _userData = newUserData ;
-        _wallet = wallet;
+        userData = newUserData ;
+        this.wallet = wallet;
     }
 
     public ProfileData getUserData(){
-        return _userData;
+        return userData;
     }
 
 }

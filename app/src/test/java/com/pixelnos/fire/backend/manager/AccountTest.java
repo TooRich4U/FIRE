@@ -18,9 +18,9 @@ public class AccountTest {
 	@Test
 	public void createAccount() {
 		assertEquals(accountNameAtTest, account.getName());
-		assertEquals(accountCurrencyAtTest,account.getData()._currency);
-		assertEquals(Math.abs(accountBalanceAtTest),account.getData()._balance,0.001);
-		assertEquals(Math.abs(accountBalanceAtTest),account.getData()._balance,0.001);
+		assertEquals(accountCurrencyAtTest,account.getData().currency);
+		assertEquals(Math.abs(accountBalanceAtTest),account.getData().balance,0.001);
+		assertEquals(Math.abs(accountBalanceAtTest),account.getData().balance,0.001);
 	}
 	@Test
 	public void addExpense() {
@@ -33,8 +33,8 @@ public class AccountTest {
 		Transaction expense = new Transaction(expenseAmount, newLocation, newDate, description);
 		account.addDebit(expense);
 		assertEquals(expense, account.getBankBook().debits.get(0));
-		assertEquals(accountBalanceAtTest-expenseAmount,account.getData()._balance,0.001);
-		assertEquals(accountBalanceAtTest,account.getData()._initialBalance,0.001);
+		assertEquals(accountBalanceAtTest-expenseAmount,account.getData().balance,0.001);
+		assertEquals(accountBalanceAtTest,account.getData().initialBalance,0.001);
 	}
 	@Test
 	public void resetAccount() {
@@ -46,7 +46,7 @@ public class AccountTest {
 		account.addDebit(expense);
 		account.addDebit(expense);
 		account.resetAccount();
-		assertEquals(accountBalanceAtTest,account.getData()._balance,0.01);
+		assertEquals(accountBalanceAtTest,account.getData().balance,0.01);
 	}
 	 
 	
@@ -57,8 +57,8 @@ public class AccountTest {
 		double creditedBalance = 100;
 		Transaction credit = new Transaction(100,"Place", new Date(),descriptions);
 		account.addCredit(credit);
-		assertEquals(accountBalanceAtTest+creditedBalance,account.getData()._balance,0.001);
-		assertEquals(account.getData()._balance -creditedBalance, account.getData()._initialBalance,0.001);
+		assertEquals(accountBalanceAtTest+creditedBalance,account.getData().balance,0.001);
+		assertEquals(account.getData().balance -creditedBalance, account.getData().initialBalance,0.001);
 	}
 	
 	@Test
@@ -69,7 +69,7 @@ public class AccountTest {
 		descriptions.add("Food"); 
 		account.addDebit(new Transaction(100, "", new Date(), descriptions)); 
 		account.addDebit(new Transaction(100, "", new Date(), descriptions)); 
-		assertEquals(accountBalanceAtTest - (100 *2), account.getData()._balance,0.001);
+		assertEquals(accountBalanceAtTest - (100 *2), account.getData().balance,0.001);
 	}
 	private ArrayList <Transaction> createDummyTransactions(int numberOfEntries){
 		ArrayList <String> description = new ArrayList<>();
@@ -113,7 +113,7 @@ public class AccountTest {
 	class TransactionSorter implements Comparator<Transaction> {
 		@Override
 		public int compare(Transaction t1, Transaction t2) {
-			return t1._date.compareTo(t2._date);
+			return t1.date.compareTo(t2.date);
 		}
 
 	}

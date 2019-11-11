@@ -117,7 +117,7 @@ public class ReportTests {
 		account.addDebit(new Transaction(102, "", null, null));  
 		account.addDebit(new Transaction(103, "", null, null)); 
 		Reporter report = new Reporter(account);
-		assertEquals(101,report.getExpenseByIndex(0)._amount,0.01);
+		assertEquals(101,report.getExpenseByIndex(0).amount,0.01);
 		account.resetAccount();
 	}
 	@Test 
@@ -127,7 +127,7 @@ public class ReportTests {
 		account.addCredit(new Transaction(103, "", null, null));
 		
 		Reporter report = new Reporter(account);
-		assertEquals(101,report.getCreditByIndex(0)._amount,0.01);
+		assertEquals(101,report.getCreditByIndex(0).amount,0.01);
 		account.resetAccount();
 	}
 

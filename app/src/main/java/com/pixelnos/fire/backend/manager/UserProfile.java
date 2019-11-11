@@ -24,5 +24,8 @@ public class UserProfile {
     public ProfileData getUserData(){
         return userData;
     }
+    public Wallet getWallet(){
+        return wallet;
+    }
 
 }

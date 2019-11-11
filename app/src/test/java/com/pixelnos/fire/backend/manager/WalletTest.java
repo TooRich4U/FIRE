@@ -7,16 +7,10 @@ import org.mockito.Mockito;
 import static org.junit.Assert.assertEquals;
 
 public class WalletTest {
-    Wallet wallet = null;
-
-    @Before
-    public void beforeEachTest(){
-
-    }
 
     @Test
     public void createWallet() {
-        wallet = new Wallet();
+        Wallet wallet = new Wallet();
         Account account = Mockito.mock(Account.class);
         Mockito.when(account.getName()).thenReturn("Something");
         wallet.add(account);

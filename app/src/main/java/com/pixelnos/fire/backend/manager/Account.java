@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Account {
+	private final String _name;
+	private AccountData data = new AccountData();
+	private BankBook bankBook = new BankBook(new ArrayList<Transaction>(), new ArrayList<Transaction>());
+
 	public class AccountData {
-		public String _name;
-		public String _currency;
+		public Currency _currency;
 		public double _balance;
 		public double _initialBalance;
 	}
@@ -20,11 +23,10 @@ public class Account {
 		}
 	}
 
-	public AccountData data = new AccountData();
-	public BankBook bankBook = new BankBook(new ArrayList<Transaction>(), new ArrayList<Transaction>());
 
-	public Account(String accountName, String accountCurrency, double accountBalance) {
-		data._name = accountName;
+
+	public Account(String accountName, Currency accountCurrency, double accountBalance) {
+		_name = accountName;
 		data._currency = accountCurrency;
 		data._balance =  accountBalance;
 		data._initialBalance =  accountBalance;
@@ -49,6 +51,17 @@ public class Account {
 			bankBook.credits.add(credit);
 			updateAccountBalance(credit._amount);
 		}
+	}
+
+	public AccountData getData(){
+		return data;
+	}
+	public String getName(){
+		return _name;
+	}
+
+	public BankBook getBankBook(){
+		return bankBook;
 	}
 
 	private void updateAccountBalance(double amount) {

@@ -1,19 +1,10 @@
 package com.pixelnos.fire.backend.manager;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 public class UserProfile {
 
-    public ProfileData userData;
-    public ArrayList<Wallet> wallets = new ArrayList<>();
+    private ProfileData _userData;
+    private Wallet _wallet;
 
-    public void addWallet(Wallet wallet) {
-        wallets.add(wallet);
-    }
-    public void removeWallet(Wallet wallet){
-        wallets.remove(wallet);
-    }
     public static class ProfileData{
         public int _age;
         public String _job;
@@ -25,8 +16,13 @@ public class UserProfile {
         public String _currency;
     }
 
-    public UserProfile(ProfileData newUserData) {
-        userData = newUserData ;
+    public UserProfile(ProfileData newUserData, Wallet wallet) {
+        _userData = newUserData ;
+        _wallet = wallet;
+    }
+
+    public ProfileData getUserData(){
+        return _userData;
     }
 
 }

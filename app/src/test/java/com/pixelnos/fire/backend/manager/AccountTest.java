@@ -11,16 +11,16 @@ import org.junit.Test;
 public class AccountTest {
 	
 	private String accountNameAtTest = "MyFirstAccount";
-	private String accountCurrencyAtTest = "EUR";
+	private Currency accountCurrencyAtTest = new Currency("Euros", "EUR", "€", 1.10);
 	private double accountBalanceAtTest = 1000;
 	private Account account = new Account(accountNameAtTest,accountCurrencyAtTest,accountBalanceAtTest);
 	
 	@Test
 	public void createAccount() {
-		assertEquals(accountNameAtTest, account.data._name);
-		assertEquals(accountCurrencyAtTest,account.data._currency);
-		assertEquals(Math.abs(accountBalanceAtTest),account.data._balance,0.001);
-		assertEquals(Math.abs(accountBalanceAtTest),account.data._balance,0.001);
+		assertEquals(accountNameAtTest, account.getName());
+		assertEquals(accountCurrencyAtTest,account.getData()._currency);
+		assertEquals(Math.abs(accountBalanceAtTest),account.getData()._balance,0.001);
+		assertEquals(Math.abs(accountBalanceAtTest),account.getData()._balance,0.001);
 	}
 	@Test
 	public void addExpense() {
@@ -32,9 +32,9 @@ public class AccountTest {
 		description.add("Food");
 		Transaction expense = new Transaction(expenseAmount, newLocation, newDate, description);
 		account.addDebit(expense);
-		assertEquals(expense, account.bankBook.debits.get(0));
-		assertEquals(accountBalanceAtTest-expenseAmount,account.data._balance,0.001);
-		assertEquals(accountBalanceAtTest,account.data._initialBalance,0.001);
+		assertEquals(expense, account.getBankBook().debits.get(0));
+		assertEquals(accountBalanceAtTest-expenseAmount,account.getData()._balance,0.001);
+		assertEquals(accountBalanceAtTest,account.getData()._initialBalance,0.001);
 	}
 	@Test
 	public void resetAccount() {
@@ -46,7 +46,7 @@ public class AccountTest {
 		account.addDebit(expense);
 		account.addDebit(expense);
 		account.resetAccount();
-		assertEquals(accountBalanceAtTest,account.data._balance,0.01);
+		assertEquals(accountBalanceAtTest,account.getData()._balance,0.01);
 	}
 	 
 	
@@ -57,8 +57,8 @@ public class AccountTest {
 		double creditedBalance = 100;
 		Transaction credit = new Transaction(100,"Place", new Date(),descriptions);
 		account.addCredit(credit);
-		assertEquals(accountBalanceAtTest+creditedBalance,account.data._balance,0.001);
-		assertEquals(account.data._balance -creditedBalance, account.data._initialBalance,0.001);
+		assertEquals(accountBalanceAtTest+creditedBalance,account.getData()._balance,0.001);
+		assertEquals(account.getData()._balance -creditedBalance, account.getData()._initialBalance,0.001);
 	}
 	
 	@Test
@@ -69,7 +69,7 @@ public class AccountTest {
 		descriptions.add("Food"); 
 		account.addDebit(new Transaction(100, "", new Date(), descriptions)); 
 		account.addDebit(new Transaction(100, "", new Date(), descriptions)); 
-		assertEquals(accountBalanceAtTest - (100 *2), account.data._balance,0.001);
+		assertEquals(accountBalanceAtTest - (100 *2), account.getData()._balance,0.001);
 	}
 	private ArrayList <Transaction> createDummyTransactions(int numberOfEntries){
 		ArrayList <String> description = new ArrayList<>();
@@ -92,13 +92,13 @@ public class AccountTest {
 	public void addDebits(){
 		ArrayList<Transaction> transactions = createDummyTransactions(10);
 		account.addDebits(transactions);
-		assertEquals(transactions, account.bankBook.debits);
+		assertEquals(transactions, account.getBankBook().debits);
 	}
 	@Test
 	public void addCredits(){
 		ArrayList<Transaction> transactions = createDummyTransactions(10);
 		account.addCredits(transactions);
-		assertEquals(transactions, account.bankBook.credits);
+		assertEquals(transactions, account.getBankBook().credits);
 	}
 
 	@Test
@@ -106,8 +106,8 @@ public class AccountTest {
 		ArrayList<Transaction> transactions = createDummyTransactions(10);
 		transactions.sort(new TransactionSorter());
 		account.addDebits(transactions);
-		account.bankBook.debits.sort(new TransactionSorter());
-		assertEquals(transactions,account.bankBook.debits);
+		account.getBankBook().debits.sort(new TransactionSorter());
+		assertEquals(transactions,account.getBankBook().debits);
 	}
 
 	class TransactionSorter implements Comparator<Transaction> {

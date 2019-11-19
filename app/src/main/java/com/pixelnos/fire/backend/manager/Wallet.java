@@ -13,11 +13,11 @@ public class Wallet {
         return accounts;
     }
     public void add(Account account) {
-        accounts.put(account.data._name,account);
+        accounts.put(account.getName(),account);
     }
 
     public void delete(Account account){
-        accounts.remove(account.data._name);
+        accounts.remove(account.getName());
     }
 
 }

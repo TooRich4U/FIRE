@@ -1,32 +1,32 @@
 package com.pixelnos.fire.backend.manager;
 
 class Currency {
-    private String _name;
-    private String _shortName;
-    private String _symbol;
-    private double _conversionRate;
+    private String name;
+    private String shortName;
+    private String symbol;
+    private double conversionRate;
 
     public Currency(String name, String shortName, String symbol, double conversionRate) {
-        _name = name;
-        _shortName = shortName;
-        _symbol = symbol;
-        _conversionRate = conversionRate;
+        this.name = name;
+        this.shortName = shortName;
+        this.symbol = symbol;
+        this.conversionRate = conversionRate;
     }
 
     public String getName() {
-        return _name;
+        return name;
     }
 
     public String getShortName() {
-        return _shortName;
+        return shortName;
     }
 
     public String getSymbol() {
-        return _symbol;
+        return symbol;
     }
 
     public double getConversionRate() {
-        return _conversionRate;
+        return conversionRate;
     }
 
     public String format(double amount) {
@@ -38,7 +38,7 @@ class Currency {
                 amountStr = insertString(amountStr, "'", i-1);
             }
         }
-        return _symbol + amountStr;
+        return symbol + amountStr;
     }
 
     // Function to insert string

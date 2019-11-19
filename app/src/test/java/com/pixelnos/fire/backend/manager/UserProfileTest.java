@@ -28,7 +28,7 @@ public class UserProfileTest {
         Currency currency = new Currency("Euros", "EUR", "€", 1.10);
         Account account = new Account("New Account1", currency,10000);
         user.getWallet().add(account);
-        
+
         Transaction transaction = new Transaction(1000,"Mars",new Date(),new ArrayList<String>());
         account.addDebit(transaction);
 

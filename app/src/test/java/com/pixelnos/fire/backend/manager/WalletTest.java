@@ -1,6 +1,5 @@
 package com.pixelnos.fire.backend.manager;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 

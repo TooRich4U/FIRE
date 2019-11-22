@@ -72,6 +72,22 @@ public class Account {
 		bankBook = new BankBook(new ArrayList<Transaction>(), new ArrayList<Transaction>());
 		data.balance = data.initialBalance;
 	}
+
+	public String toYML(String shift) {
+		String yml = String.format(shift + "name: %s\n" +
+						shift + "balance: %.2f\n" +
+						shift + "initial_balance: %.2f\n" +
+						shift + "currency: %s\n"
+				, name, data.balance, data.initialBalance, data.currency.toYML());
+		yml += shift + "transactions:\n";
+		for (Transaction debit : bankBook.debits) {
+			yml += shift + "  - \n" + debit.toYML(shift + "    ") + "\n";
+		}
+		for (Transaction credit : bankBook.credits) {
+			yml += shift + "  - \n" + credit.toYML(shift + "    ") + "\n";
+		}
+		return yml;
+	}
 }
 
 class TransactionSorter implements Comparator<Transaction>{

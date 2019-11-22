@@ -1,6 +1,6 @@
 package com.pixelnos.fire.backend.manager;
 
-class Currency {
+public class Currency {
     private String name;
     private String shortName;
     private String symbol;
@@ -27,6 +27,10 @@ class Currency {
 
     public double getConversionRate() {
         return conversionRate;
+    }
+
+    public String toYML(){
+        return name;
     }
 
     public String format(double amount) {

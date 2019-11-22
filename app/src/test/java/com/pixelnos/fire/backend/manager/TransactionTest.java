@@ -35,7 +35,8 @@ public class TransactionTest {
 				"amount: 345.80\n" +
 						"location: Tokyo\n" +
 						"date: " + today.toString() + "\n" +
-						"tags:\n"+"  - " + descriptions.get(0)+"\n  - " + descriptions.get(1) +"\n", transaction.toYML());
+						"tags:\n"+"  - " + descriptions.get(0)+"\n  - " + descriptions.get(1) +"\n",
+				transaction.toYML(""));
 	}
 
 }

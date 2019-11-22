@@ -31,6 +31,5 @@ public class UserProfileTest {
 
         Transaction transaction = new Transaction(1000,"Mars",new Date(),new ArrayList<String>());
         account.addDebit(transaction);
-
     }
 }

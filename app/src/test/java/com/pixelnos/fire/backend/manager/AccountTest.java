@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class AccountTest {
 	
@@ -102,6 +103,29 @@ public class AccountTest {
 	}
 
 	@Test
+	public void toYML(){
+		Transaction transaction = Mockito.mock(Transaction.class);
+		Transaction transaction2 = Mockito.mock(Transaction.class);
+		Currency currency = Mockito.mock(Currency.class);
+		Account newAccount = new Account(accountNameAtTest,currency,1000.0);
+		newAccount.addDebit(transaction);
+		newAccount.addCredit(transaction2);
+		Mockito.when(currency.toYML()).thenReturn("Eur");
+		Mockito.when(transaction.toYML(Mockito.anyString())).thenReturn("      transaction1");
+		Mockito.when(transaction2.toYML(Mockito.anyString())).thenReturn("      transaction2");
+		assertEquals(
+				"name: MyFirstAccount\n" +
+						"balance: 1000.00\n" +
+						"initial_balance: 1000.00\n" +
+						"currency: Eur\n" +
+						"transactions:\n" +
+						"  - \n" +
+						"      transaction1\n" +
+						"  - \n" +
+						"      transaction2\n", newAccount.toYML(""));
+	}
+
+	@Test
 	public void sortTransactions(){
 		ArrayList<Transaction> transactions = createDummyTransactions(10);
 		transactions.sort(new TransactionSorter());
@@ -117,5 +141,7 @@ public class AccountTest {
 		}
 
 	}
+
+
 }
 

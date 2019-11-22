@@ -33,7 +33,24 @@ public class WalletTest {
         assertEquals(account1, wallet.getAccountByName("Something1"));
     }
 
-
-
+    @Test
+    public void toYML(){
+        Wallet wallet = new Wallet();
+        Account account = Mockito.mock(Account.class);
+        Account account2 = Mockito.mock(Account.class);
+        Mockito.when(account.getName()).thenReturn("account1");
+        Mockito.when(account2.getName()).thenReturn("account2");
+        wallet.add(account);
+        wallet.add(account2);
+        Mockito.when(account.toYML(Mockito.anyString())).thenReturn("      account1");
+        Mockito.when(account2.toYML(Mockito.anyString())).thenReturn("      account2");
+        assertEquals(
+                "Wallet:\n" +
+                "  accounts:\n" +
+                "    -\n" +
+                "      account2\n" +
+                "    -\n" +
+                "      account1\n", wallet.toYML(""));
+    }
 
 }

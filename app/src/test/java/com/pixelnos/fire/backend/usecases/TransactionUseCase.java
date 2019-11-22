@@ -1,4 +1,4 @@
-package com.pixelnos.fire.backend.UseCases;
+package com.pixelnos.fire.backend.usecases;
 import com.pixelnos.fire.backend.manager.Account;
 import com.pixelnos.fire.backend.manager.Currency;
 import com.pixelnos.fire.backend.manager.Wallet;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 
 public class TransactionUseCase {
     @Test
-    public void AddTransaction(){
+    public void addTransaction(){
         Wallet wallet = new Wallet();
         wallet.add(new Account("Savings",
                 new Currency("US Dollars","USD", "$", 1.0),

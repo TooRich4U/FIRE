@@ -23,7 +23,12 @@ public class Account {
 		}
 	}
 
-
+	public Account(String yml){
+		name = "";
+		data.currency = new Currency("", "", "", 0.0);
+		data.balance =  1;
+		data.initialBalance =  1;
+	}
 
 	public Account(String accountName, Currency accountCurrency, double accountBalance) {
 		name = accountName;

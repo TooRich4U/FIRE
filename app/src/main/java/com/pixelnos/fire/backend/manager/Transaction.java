@@ -26,14 +26,14 @@ public class Transaction {
 		type = newTransaction.type;
 	}
 
-    public String toYML() {
+    public String toYML(String shift) {
 		String tags = "";
 		for(String tag : this.tags){
-			tags += "  - " + tag + "\n";
+			tags += shift + "  - " + tag + "\n";
 		}
-		return String.format("amount: %.2f\n" +
-				"location: %s\n" +
-				"date: %s\n" +
-				"tags:\n%s" , amount, location, date.toString(), tags);
+		return String.format(shift + "amount: %.2f\n" +
+				shift + "location: %s\n" +
+				shift + "date: %s\n" +
+				shift + "tags:\n%s" , amount, location, date.toString(), tags);
     }
 }

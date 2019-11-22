@@ -19,5 +19,13 @@ public class Wallet {
     public void delete(Account account){
         accounts.remove(account.getName());
     }
+    public String toYML(String shift){
+        String yml = shift + "Wallet:\n";
+        yml += shift + "  accounts:\n";
+        for(Map.Entry<String, Account> account : accounts.entrySet()){
+            yml += shift + "    -\n"+ account.getValue().toYML(shift + "      ") + "\n";
+        }
+        return yml;
+    }
 
 }

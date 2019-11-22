@@ -1,28 +1,36 @@
 package com.pixelnos.fire.backend.manager;
 
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
 public class UserProfileTest {
     @Test
     public void createUser() {
-        String job = "jobless";
-        int age = 25;
-        double netMonthlySalary = 250000;
-        double savings = 8000;
-        String currency = "EUR";
-        UserProfile.ProfileData userData = new UserProfile.ProfileData();
-        userData._age = age;
-        userData._job = job;
-        userData._salary = netMonthlySalary;
-        userData._savings = savings;
-        userData._currency = currency;
-        userData._passiveIncomeTarget = 5000;
-        userData._passiveIncomeStart = 45;
-        userData._fireTarget = 0.50;
-        UserProfile user = new UserProfile(userData);
-        assertEquals(user.userData, userData);
+        UserProfile.ProfileData userData = Mockito.mock(UserProfile.ProfileData.class);
+        Wallet wallet = Mockito.mock(Wallet.class);
+        UserProfile user = new UserProfile(userData, wallet);
+        assertEquals(userData, user.getUserData());
+        assertEquals(wallet, user.getWallet());
+    }
+
+    @Test
+    // For my understanding. Do not delete.
+    public void createFullAUserAccount(){
+        UserProfile.ProfileData profileData = new UserProfile.ProfileData();
+        Wallet wallet = new Wallet();
+        UserProfile user = new UserProfile(profileData, wallet);
+
+        Currency currency = new Currency("Euros", "EUR", "€", 1.10);
+        Account account = new Account("New Account1", currency,10000);
+        user.getWallet().add(account);
+
+        Transaction transaction = new Transaction(1000,"Mars",new Date(),new ArrayList<String>());
+        account.addDebit(transaction);
 
     }
 }

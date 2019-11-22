@@ -16,10 +16,10 @@ public class TransactionTest {
 		descriptions.add("Something");
 		descriptions.add("Food");
 		Transaction transaction = new Transaction(newAmount, newLocation, today, descriptions);
-		assertEquals(newAmount, transaction._amount,0.01);
-		assertEquals(newLocation, transaction._location);
-		assertEquals(today, transaction._date);
-		assertEquals(descriptions,transaction._tags);
+		assertEquals(newAmount, transaction.amount,0.01);
+		assertEquals(newLocation, transaction.location);
+		assertEquals(today, transaction.date);
+		assertEquals(descriptions,transaction.tags);
 	}
 
 	@Test

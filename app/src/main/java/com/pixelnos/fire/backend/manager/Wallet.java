@@ -1,22 +1,23 @@
 package com.pixelnos.fire.backend.manager;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Wallet {
-    public ArrayList<Account> accounts = new ArrayList<>();
+    private Map<String,Account> accounts = new HashMap<>();
 
+    public Account getAccountByName(String accountName){
+        return accounts.get(accountName);
+    }
+    public Map<String,Account> getAccounts (){
+        return accounts;
+    }
     public void add(Account account) {
-        accounts.add(account);
+        accounts.put(account.getName(),account);
     }
 
     public void delete(Account account){
-        accounts.remove(account);
+        accounts.remove(account.getName());
     }
-    public double balanceOf(String accountName, String currency){
-        for(Account account : accounts){
-            if(account.data._name.equals(accountName) & account.data._currency.equals(currency))
-                return account.data._balance;
-        }
-        return(0);
-    }
+
 }

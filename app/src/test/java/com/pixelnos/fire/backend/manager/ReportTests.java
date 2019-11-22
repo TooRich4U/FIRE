@@ -11,14 +11,13 @@ import org.junit.Test;
 
 public class ReportTests {
 	private String accountNameAtTest = "MyFirstAccount";
-	private String accountCurrencyAtTest = "EUR";
+	private Currency accountCurrencyAtTest = new Currency("Euros", "EUR", "€", 1.10);
 	private double accountBalanceAtTest = 1000;
-	private Account account = new Account(accountNameAtTest,accountCurrencyAtTest,accountBalanceAtTest);
+	private Account account = new Account(accountNameAtTest, accountCurrencyAtTest, accountBalanceAtTest);
 	private ArrayList <Transaction> createDummyTransactions(int numberOfEntries){
 		ArrayList <String> description = new ArrayList<>();
 		ArrayList <Transaction> transactions = new ArrayList<>();
 		Calendar calendar = Calendar.getInstance();
-		
 		for(int i = 0 ; i < numberOfEntries+1; i ++) {
 			 description.add("Utilities"); 
 			 description.add("Toys"); 
@@ -29,22 +28,20 @@ public class ReportTests {
 		}
 		return transactions;
 		
-	} 
+	}
+
 	@Test
 	public void reportDebitTransactionByDateType() {
-		ArrayList <String> description = new ArrayList<>();
 		ArrayList <Transaction> transactions = new ArrayList<>();
 		ArrayList <Transaction> mondayTransactions = new ArrayList<>();
-		description.add("Utilities");
-		description.add("Food");
-		double amount = 10;
-		String location = null;
 		Calendar calendar = Calendar.getInstance(); 
 		for(int i=0; i <30;i++) {
 			calendar.set(2018, 11, 1+i, 59, 59, 59);
 			Date date = calendar.getTime();
-			Transaction transaction = new Transaction(amount, location, date, description);
-			if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) mondayTransactions.add(transaction);
+			Transaction transaction = new Transaction(10, null, date, null);
+			if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+				mondayTransactions.add(transaction);
+			}
 			transactions.add(transaction);
 			account.addDebit(transaction);
 		}   
@@ -52,19 +49,16 @@ public class ReportTests {
 		assertEquals(mondayTransactions,report.getDebitTransactionByWeekDay(Calendar.MONDAY));
 		account.resetAccount();
 	}
+
 	@Test
 	public void reportDebitTransactionByDate() {
-		ArrayList <String> description = new ArrayList<>();
 		ArrayList <Transaction> transactions = new ArrayList<>();
-		description.add("Utilities");
-		description.add("Food");
 		double amount = 10;
-		String location = null;
-		Calendar calendar = Calendar.getInstance(); 
+		Calendar calendar = Calendar.getInstance();
 		for(int i=0; i <30;i++) {
 			calendar.set(2018, 11, 1+i, 59, 59, 59);
 			Date date = calendar.getTime();
-			Transaction transaction = new Transaction(amount, location, date, description);
+			Transaction transaction = new Transaction(amount, null, date, null);
 			if (i > 28) transactions.add(transaction);
 			account.addDebit(transaction);
 		}   
@@ -74,12 +68,16 @@ public class ReportTests {
 		account.resetAccount();
 	}
 	@Test
-	public void getExpenseBydescription(){
-		ArrayList <String> descriptions = new ArrayList<>();
-		descriptions.add("Something");
-		descriptions.add("Food");
-		Transaction expense = new Transaction(100, "", new Date(), descriptions); 
-		account.addDebit(expense);   
+	public void getExpenseByDescription(){
+		ArrayList <String> tags = new ArrayList<>();
+		tags.add("Something");
+		tags.add("Food");
+		Transaction expense = new Transaction(100, "", new Date(), tags);
+		ArrayList<String> tags2 = new ArrayList<>(tags);
+		tags2.remove(0);
+		Transaction expense2 = new Transaction(100, "", new Date(), tags2);
+		account.addDebit(expense);
+		account.addDebit(expense2);
 		ArrayList <Transaction> expensesByDescription = new ArrayList<>();
 		expensesByDescription.add(expense); 
 		Reporter report = new Reporter(account);
@@ -102,21 +100,15 @@ public class ReportTests {
 	public void getTagsUsage() {
 		ArrayList <String> descriptions1 = new ArrayList<>();
 		descriptions1.add("Something");
-		descriptions1.add("Food"); 
-		ArrayList <String> descriptions2 = new ArrayList<>();
-		descriptions2.add("Something");
-		descriptions2.add("Food"); 
-		ArrayList <String> descriptions3 = new ArrayList<>();
-		descriptions3.add("Something");
-		descriptions3.add("Food"); 
-		Map<String,Long> occurrencies = new HashMap<>();
-		occurrencies.put("Something", (long) 3);
-		occurrencies.put("Food", (long) 3); 
+		descriptions1.add("Food");
+		Map<String,Long> occurrences = new HashMap<>();
+		occurrences.put("Something", (long) 3);
+		occurrences.put("Food", (long) 3);
 		account.addDebit(new Transaction(100, "", new Date(), descriptions1)); 
-		account.addDebit(new Transaction(100, "", new Date(), descriptions2));  
-		account.addDebit(new Transaction(100, "", new Date(), descriptions3));
+		account.addDebit(new Transaction(100, "", new Date(), descriptions1));
+		account.addDebit(new Transaction(100, "", new Date(), descriptions1));
 		Reporter report = new Reporter(account);
-		assertEquals(occurrencies,report.getTagsUsageCount());  
+		assertEquals(occurrences,report.getTagsUsageCount());
 		account.resetAccount();
 	}
 	@Test 
@@ -125,7 +117,7 @@ public class ReportTests {
 		account.addDebit(new Transaction(102, "", null, null));  
 		account.addDebit(new Transaction(103, "", null, null)); 
 		Reporter report = new Reporter(account);
-		assertEquals(101,report.getExpensebyIndex(0)._amount,0.01);
+		assertEquals(101,report.getExpenseByIndex(0).amount,0.01);
 		account.resetAccount();
 	}
 	@Test 
@@ -135,16 +127,21 @@ public class ReportTests {
 		account.addCredit(new Transaction(103, "", null, null));
 		
 		Reporter report = new Reporter(account);
-		assertEquals(101,report.getCreditbyIndex(0)._amount,0.01);
+		assertEquals(101,report.getCreditByIndex(0).amount,0.01);
 		account.resetAccount();
 	}
+
 	@Test
 	public void getBankBookEntries() {
 		ArrayList <Transaction> transactions = createDummyTransactions(40);
 		Reporter report = new Reporter(account);
-		for(Transaction transaction : transactions) account.addDebit(transaction);
+		for(Transaction transaction : transactions) {
+			account.addDebit(transaction);
+		}
 		assertEquals(41,report.getBankBookDebitEntries());
-		for(Transaction transaction : transactions) account.addCredit(transaction);
+		for(Transaction transaction : transactions) {
+			account.addCredit(transaction);
+		}
 		assertEquals(41,report.getBankBookCreditEntries());
 	}
 

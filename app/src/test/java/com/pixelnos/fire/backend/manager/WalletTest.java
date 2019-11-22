@@ -1,54 +1,39 @@
 package com.pixelnos.fire.backend.manager;
 
 import org.junit.Test;
-
-import java.util.ArrayList;
+import org.mockito.Mockito;
 
 import static org.junit.Assert.assertEquals;
 
 public class WalletTest {
+
     @Test
     public void createWallet() {
         Wallet wallet = new Wallet();
-        ArrayList<Account> walletList = new ArrayList<>();
-        Account account1 = new Account("Something", "EUR ", 10000);
-        wallet.add(account1);
-        walletList.add(account1);
-        assertEquals(wallet.accounts, walletList);
+        Account account = Mockito.mock(Account.class);
+        Mockito.when(account.getName()).thenReturn("Something");
+        wallet.add(account);
+
+        assertEquals(account, wallet.getAccountByName("Something"));
     }
 
     @Test
     public void addAndRemoveAccount() {
         Wallet wallet = new Wallet();
-        ArrayList<Account> walletList = new ArrayList<>();
-        Account account1 = new Account("Something", "EUR ", 10000);
-        Account account2 = new Account("Something", "EUR ", 10000);
+        Account account1 = Mockito.mock(Account.class);
+        Account account2 = Mockito.mock(Account.class);
+        Mockito.when(account1.getName()).thenReturn("Something1");
+        Mockito.when(account2.getName()).thenReturn("Something2");
         wallet.add(account1);
         wallet.add(account2);
-        walletList.add(account1);
-        walletList.add(account2);
-        assertEquals(wallet.accounts, walletList);
+        assertEquals(2, wallet.getAccounts().size());
+
         wallet.delete(account2);
-        walletList.remove(account2);
-        assertEquals(wallet.accounts, walletList);
+        assertEquals(1, wallet.getAccounts().size());
+        assertEquals(account1, wallet.getAccountByName("Something1"));
     }
 
 
-    @Test
-    public void sumOfWallet() {
-        Wallet wallet = new Wallet();
-        ArrayList<Account> walletList = new ArrayList<>();
-        Account account1 = new Account("Something", "EUR", 10000);
-        Account account2 = new Account("Something", "EUR", 10000);
-        Account account3 = new Account("Something", "EUR", 10000);
-        wallet.add(account1);
-        wallet.add(account2);
-        wallet.add(account3);
-        walletList.add(account1);
-        walletList.add(account2);
-        walletList.add(account3);
-        assertEquals(wallet.balanceOf("Something", "EUR"), 10000, 0.01);
 
-    }
 
 }

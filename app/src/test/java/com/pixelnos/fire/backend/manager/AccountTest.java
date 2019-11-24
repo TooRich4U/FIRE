@@ -7,20 +7,21 @@ import java.util.Comparator;
 import java.util.Date;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class AccountTest {
 	
 	private String accountNameAtTest = "MyFirstAccount";
-	private String accountCurrencyAtTest = "EUR";
+	private Currency accountCurrencyAtTest = new Currency("Euros", "EUR", "€", 1.10);
 	private double accountBalanceAtTest = 1000;
 	private Account account = new Account(accountNameAtTest,accountCurrencyAtTest,accountBalanceAtTest);
 	
 	@Test
 	public void createAccount() {
-		assertEquals(accountNameAtTest, account.data._name);
-		assertEquals(accountCurrencyAtTest,account.data._currency);
-		assertEquals(Math.abs(accountBalanceAtTest),account.data._balance,0.001);
-		assertEquals(Math.abs(accountBalanceAtTest),account.data._balance,0.001);
+		assertEquals(accountNameAtTest, account.getName());
+		assertEquals(accountCurrencyAtTest,account.getData().currency);
+		assertEquals(Math.abs(accountBalanceAtTest),account.getData().balance,0.001);
+		assertEquals(Math.abs(accountBalanceAtTest),account.getData().balance,0.001);
 	}
 	@Test
 	public void addExpense() {
@@ -32,9 +33,9 @@ public class AccountTest {
 		description.add("Food");
 		Transaction expense = new Transaction(expenseAmount, newLocation, newDate, description);
 		account.addDebit(expense);
-		assertEquals(expense, account.bankBook.debits.get(0));
-		assertEquals(accountBalanceAtTest-expenseAmount,account.data._balance,0.001);
-		assertEquals(accountBalanceAtTest,account.data._initialBalance,0.001);
+		assertEquals(expense, account.getBankBook().debits.get(0));
+		assertEquals(accountBalanceAtTest-expenseAmount,account.getData().balance,0.001);
+		assertEquals(accountBalanceAtTest,account.getData().initialBalance,0.001);
 	}
 	@Test
 	public void resetAccount() {
@@ -46,7 +47,7 @@ public class AccountTest {
 		account.addDebit(expense);
 		account.addDebit(expense);
 		account.resetAccount();
-		assertEquals(accountBalanceAtTest,account.data._balance,0.01);
+		assertEquals(accountBalanceAtTest,account.getData().balance,0.01);
 	}
 	 
 	
@@ -57,8 +58,8 @@ public class AccountTest {
 		double creditedBalance = 100;
 		Transaction credit = new Transaction(100,"Place", new Date(),descriptions);
 		account.addCredit(credit);
-		assertEquals(accountBalanceAtTest+creditedBalance,account.data._balance,0.001);
-		assertEquals(account.data._balance -creditedBalance, account.data._initialBalance,0.001);
+		assertEquals(accountBalanceAtTest+creditedBalance,account.getData().balance,0.001);
+		assertEquals(account.getData().balance -creditedBalance, account.getData().initialBalance,0.001);
 	}
 	
 	@Test
@@ -69,7 +70,7 @@ public class AccountTest {
 		descriptions.add("Food"); 
 		account.addDebit(new Transaction(100, "", new Date(), descriptions)); 
 		account.addDebit(new Transaction(100, "", new Date(), descriptions)); 
-		assertEquals(accountBalanceAtTest - (100 *2), account.data._balance,0.001);
+		assertEquals(accountBalanceAtTest - (100 *2), account.getData().balance,0.001);
 	}
 	private ArrayList <Transaction> createDummyTransactions(int numberOfEntries){
 		ArrayList <String> description = new ArrayList<>();
@@ -92,13 +93,36 @@ public class AccountTest {
 	public void addDebits(){
 		ArrayList<Transaction> transactions = createDummyTransactions(10);
 		account.addDebits(transactions);
-		assertEquals(transactions, account.bankBook.debits);
+		assertEquals(transactions, account.getBankBook().debits);
 	}
 	@Test
 	public void addCredits(){
 		ArrayList<Transaction> transactions = createDummyTransactions(10);
 		account.addCredits(transactions);
-		assertEquals(transactions, account.bankBook.credits);
+		assertEquals(transactions, account.getBankBook().credits);
+	}
+
+	@Test
+	public void toYML(){
+		Transaction transaction = Mockito.mock(Transaction.class);
+		Transaction transaction2 = Mockito.mock(Transaction.class);
+		Currency currency = Mockito.mock(Currency.class);
+		Account newAccount = new Account(accountNameAtTest,currency,1000.0);
+		newAccount.addDebit(transaction);
+		newAccount.addCredit(transaction2);
+		Mockito.when(currency.toYML()).thenReturn("Eur");
+		Mockito.when(transaction.toYML(Mockito.anyString())).thenReturn("      transaction1");
+		Mockito.when(transaction2.toYML(Mockito.anyString())).thenReturn("      transaction2");
+		assertEquals(
+				"name: MyFirstAccount\n" +
+						"balance: 1000.00\n" +
+						"initial_balance: 1000.00\n" +
+						"currency: Eur\n" +
+						"transactions:\n" +
+						"  - \n" +
+						"      transaction1\n" +
+						"  - \n" +
+						"      transaction2\n", newAccount.toYML(""));
 	}
 
 	@Test
@@ -106,16 +130,18 @@ public class AccountTest {
 		ArrayList<Transaction> transactions = createDummyTransactions(10);
 		transactions.sort(new TransactionSorter());
 		account.addDebits(transactions);
-		account.bankBook.debits.sort(new TransactionSorter());
-		assertEquals(transactions,account.bankBook.debits);
+		account.getBankBook().debits.sort(new TransactionSorter());
+		assertEquals(transactions,account.getBankBook().debits);
 	}
 
 	class TransactionSorter implements Comparator<Transaction> {
 		@Override
 		public int compare(Transaction t1, Transaction t2) {
-			return t1._date.compareTo(t2._date);
+			return t1.date.compareTo(t2.date);
 		}
 
 	}
+
+
 }
 

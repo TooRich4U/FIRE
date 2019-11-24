@@ -16,10 +16,10 @@ public class TransactionTest {
 		descriptions.add("Something");
 		descriptions.add("Food");
 		Transaction transaction = new Transaction(newAmount, newLocation, today, descriptions);
-		assertEquals(newAmount, transaction._amount,0.01);
-		assertEquals(newLocation, transaction._location);
-		assertEquals(today, transaction._date);
-		assertEquals(descriptions,transaction._tags);
+		assertEquals(newAmount, transaction.amount,0.01);
+		assertEquals(newLocation, transaction.location);
+		assertEquals(today, transaction.date);
+		assertEquals(descriptions,transaction.tags);
 	}
 
 	@Test
@@ -35,7 +35,8 @@ public class TransactionTest {
 				"amount: 345.80\n" +
 						"location: Tokyo\n" +
 						"date: " + today.toString() + "\n" +
-						"tags:\n"+"  - " + descriptions.get(0)+"\n  - " + descriptions.get(1) +"\n", transaction.toYML());
+						"tags:\n"+"  - " + descriptions.get(0)+"\n  - " + descriptions.get(1) +"\n",
+				transaction.toYML(""));
 	}
 
 }

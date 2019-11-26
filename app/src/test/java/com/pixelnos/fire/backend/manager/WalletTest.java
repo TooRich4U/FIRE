@@ -35,7 +35,7 @@ public class WalletTest {
     }
 
     @Test
-    public void toYML(){
+    public void toYML() {
         Wallet wallet = new Wallet();
         Account account = Mockito.mock(Account.class);
         Account account2 = Mockito.mock(Account.class);
@@ -47,34 +47,35 @@ public class WalletTest {
         Mockito.when(account2.toYML(Mockito.anyString())).thenReturn("      account2");
         assertEquals(
                 "Wallet:\n" +
-                "  accounts:\n" +
-                "    -\n" +
-                "      account2\n" +
-                "    -\n" +
-                "      account1\n", wallet.toYML(""));
+                        "  accounts:\n" +
+                        "    -\n" +
+                        "      account2\n" +
+                        "    -\n" +
+                        "      account1\n", wallet.toYML(""));
     }
 
     @Test
-    public void createWalletFromYML(){
+    public void createWalletFromYML() {
         String yml = "Wallet:\n" +
                 "  accounts:\n" +
                 "    -\n" +
-                "       account1\n"+
+                "       account1\n" +
                 "    -\n" +
-                "       account2\n";
+                "       account2\n" +
+                "  amount: 5648.85";
 
-        try{
+        try {
             AccountFactory factory = Mockito.mock(AccountFactory.class);
             Account account = Mockito.mock(Account.class);
             Account account2 = Mockito.mock(Account.class);
-            Mockito.when(factory.createAccountFromYML(Mockito.anyString())).thenReturn(account).thenReturn(account2);
+            Mockito.when(factory.createAccountFromYML("       account1\n")).thenReturn(account);
+            Mockito.when(factory.createAccountFromYML("       account2\n")).thenReturn(account2);
             Mockito.when(account.getName()).thenReturn("account1");
             Mockito.when(account2.getName()).thenReturn("account2");
             Wallet wallet = new Wallet(factory, yml);
             System.out.print(wallet.getAccounts().keySet());
             assertEquals(2, wallet.getAccounts().size());
-        }
-        catch(YMLInvalidException e){
+        } catch (YMLInvalidException e) {
             fail("Wallet creation failed.");
         }
     }

@@ -26,14 +26,15 @@ public class Transaction {
 		type = newTransaction.type;
 	}
 
-    public String toYML(String shift) {
+    public String toCSV() {
 		String tags = "";
 		for(String tag : this.tags){
-			tags += shift + "  - " + tag + "\n";
+			tags +=  tag + "|";
 		}
-		return String.format(shift + "amount: %.2f\n" +
-				shift + "location: %s\n" +
-				shift + "date: %s\n" +
-				shift + "tags:\n%s" , amount, location, date.toString(), tags);
+        tags = tags.substring(0, tags.length() - 1);
+		return String.format("%.2f," +
+				"%s," +
+				"%s," +
+				"%s" , amount, location, date.toString(), tags);
     }
 }

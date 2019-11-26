@@ -21,16 +21,28 @@ public class Wallet {
         int startAccountLine = 2;
         int endAccountLine = 2;
         boolean accountFound = false;
-        for(int lineIndex = 2; lineIndex < lines.length; lineIndex++){
-            if(lines[lineIndex].compareTo("    -") == 0 || lineIndex == lines.length - 1){
+        for(int lineIndex = 2; lineIndex < lines.length && getShift(lines[lineIndex]) > 2; lineIndex++){
+            if(lines[lineIndex].compareTo("    -") == 0 || lineIndex == lines.length - 1 || getShift(lines[lineIndex+1]) <= 2){
+
                 if(accountFound){
                     endAccountLine = lineIndex;
+                    if(getShift(lines[lineIndex + 1]) <= 2) {
+                        endAccountLine = lineIndex + 1;
+                    }
                     addAccountFromString(accountFactory, lines, startAccountLine, endAccountLine);
                 }
                 accountFound = true;
                 startAccountLine = lineIndex+1;
             }
         }
+    }
+
+    int getShift(String string){
+        int shift = 0;
+        while(string.charAt(shift) == ' '){
+            shift += 1;
+        }
+        return shift;
     }
 
     private void checkYMLValidity(String[] lines) throws YMLInvalidException {
@@ -43,6 +55,7 @@ public class Wallet {
         String newYML = "";
         for (int index = startAccountLine; index < endAccountLine; index++) {
             newYML += lines[index] + "\n";
+
         }
         add(accountFactory.createAccountFromYML(newYML));
     }

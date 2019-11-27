@@ -1,5 +1,7 @@
 package com.pixelnos.fire.backend.manager;
 
+import com.pixelnos.fire.ymlreader.YMLValue;
+
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -68,8 +70,8 @@ public class WalletTest {
             AccountFactory factory = Mockito.mock(AccountFactory.class);
             Account account = Mockito.mock(Account.class);
             Account account2 = Mockito.mock(Account.class);
-            Mockito.when(factory.createAccountFromYML("       account1\n")).thenReturn(account);
-            Mockito.when(factory.createAccountFromYML("       account2\n")).thenReturn(account2);
+            Mockito.when(factory.createAccountFromYML(Mockito.any(YMLValue.class))).thenReturn(account);
+            Mockito.when(factory.createAccountFromYML(Mockito.any(YMLValue.class))).thenReturn(account2);
             Mockito.when(account.getName()).thenReturn("account1");
             Mockito.when(account2.getName()).thenReturn("account2");
             Wallet wallet = new Wallet(factory, yml);

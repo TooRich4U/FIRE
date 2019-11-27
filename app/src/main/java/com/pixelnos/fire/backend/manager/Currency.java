@@ -1,5 +1,7 @@
 package com.pixelnos.fire.backend.manager;
 
+import com.pixelnos.fire.ymlreader.YMLValue;
+
 public class Currency {
     private String name;
     private String shortName;
@@ -11,6 +13,13 @@ public class Currency {
         this.shortName = shortName;
         this.symbol = symbol;
         this.conversionRate = conversionRate;
+    }
+
+    public Currency(YMLValue value) {
+        name = value.get("name").asString();
+        shortName = value.get("short_name").asString();
+        symbol = value.get("symbol").asString();
+        conversionRate = value.get("conversion_rate").asDouble();
     }
 
     public String getName() {

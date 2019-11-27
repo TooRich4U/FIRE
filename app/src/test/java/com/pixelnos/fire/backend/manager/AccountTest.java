@@ -1,5 +1,8 @@
 package com.pixelnos.fire.backend.manager;
 
+import com.pixelnos.fire.ymlreader.YMLReader;
+import com.pixelnos.fire.ymlreader.YMLValue;
+
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -27,11 +30,19 @@ public class AccountTest {
 
 	@Test
 	public void createAccountFromYML() {
-		/*Account account =
-		assertEquals(accountNameAtTest, account.getName());
-		assertEquals(accountCurrencyAtTest,account.getData().currency);
-		assertEquals(Math.abs(accountBalanceAtTest),account.getData().balance,0.001);
-		assertEquals(Math.abs(accountBalanceAtTest),account.getData().balance,0.001);*/
+	    String yml = "name: Savings\n"+
+                "currency: USD\n"+
+                "balance: 548.45\n"+
+                "initial_balance: 89.41";
+        YMLValue value = YMLReader.read(yml);
+        CurrencyFactory factory = Mockito.mock(CurrencyFactory.class);
+        Currency currency = Mockito.mock(Currency.class);
+        Mockito.when(factory.createFromYML(Mockito.any(YMLValue.class))).thenReturn(currency);
+		Account account = new Account(value, factory);
+		assertEquals("Savings", account.getName());
+		assertEquals(currency,account.getData().currency);
+		assertEquals(548.45,account.getData().balance,0.001);
+		assertEquals(89.41,account.getData().initialBalance,0.001);
 	}
 
 	@Test

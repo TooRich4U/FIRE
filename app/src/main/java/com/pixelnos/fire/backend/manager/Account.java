@@ -1,5 +1,7 @@
 package com.pixelnos.fire.backend.manager;
 
+import com.pixelnos.fire.ymlreader.YMLValue;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -24,23 +26,11 @@ public class Account {
         }
     }
 
-    public Account(String yml) {
-        String[] lines = yml.split("\\r?\\n");
-        for (String line : lines) {
-			String[] map = line.split(":");
-			switch (map[0]){
-                case "name":
-                    name = map[1];
-                case "currency":
-                    data.currency = new Currency("", "", "", 0.0);
-                case "balance":
-                    data.balance = Double.parseDouble(map[1]);
-                case "initial_balance":
-                    data.initialBalance = Double.parseDouble(map[1]);
-                default:
-                    System.out.println("Problem with map: " + map[0]);
-            }
-        }
+    public Account(YMLValue yml, CurrencyFactory factory){
+        name = yml.get("name").asString();
+        data.currency = factory.createFromYML(yml.get("currency"));
+        data.balance = yml.get("balance").asDouble();
+        data.initialBalance = yml.get("initial_balance").asDouble();
     }
 
     public Account(String accountName, Currency accountCurrency, double accountBalance) {

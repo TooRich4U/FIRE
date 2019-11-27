@@ -38,8 +38,13 @@ public class Currency {
         return conversionRate;
     }
 
-    public String toYML(){
-        return name;
+    public YMLValue toYML(){
+        YMLValue currency = new YMLValue();
+        currency.addEntry("short_name", new YMLValue(shortName));
+        currency.addEntry("name", new YMLValue(name));
+        currency.addEntry("symbol", new YMLValue(symbol));
+        currency.addEntry("conversion_rate", new YMLValue(String.format("%.5f",conversionRate)));
+        return currency;
     }
 
     public String format(double amount) {

@@ -1,6 +1,7 @@
 package com.pixelnos.fire.backend.manager;
 import com.pixelnos.fire.ymlreader.YMLReader;
 import com.pixelnos.fire.ymlreader.YMLValue;
+import com.pixelnos.fire.ymlreader.YMLWriter;
 
 import org.junit.Test;
 
@@ -32,6 +33,20 @@ public class CurrencyTest {
         assertEquals("USD", currency.getShortName());
         assertEquals("$", currency.getSymbol());
         assertEquals(1.0, currency.getConversionRate(), 0.00001);
+    }
+
+    @Test
+    public void toYML(){
+        String name = "US Dollars";
+        String shortName = "USD";
+        String symbol = "$";
+        double conversionRate = 1.0;
+        Currency currency = new Currency(name, shortName, symbol, conversionRate);
+        String yml = "short_name: USD\n"+
+                "name: US Dollars\n"+
+                "symbol: $\n"+
+                "conversion_rate: 1.00000";
+        assertEquals(yml,YMLWriter.write(currency.toYML()));
     }
 
     @Test

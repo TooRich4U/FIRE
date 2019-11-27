@@ -2,6 +2,7 @@ package com.pixelnos.fire.backend.manager;
 
 import com.pixelnos.fire.ymlreader.YMLReader;
 import com.pixelnos.fire.ymlreader.YMLValue;
+import com.pixelnos.fire.ymlreader.YMLWriter;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -128,12 +129,12 @@ public class AccountTest {
 	public void toYML(){
 		Currency currency = Mockito.mock(Currency.class);
 		Account newAccount = new Account(accountNameAtTest,currency,1000.0);
-		Mockito.when(currency.toYML()).thenReturn("Eur");
+		Mockito.when(currency.toYML()).thenReturn(new YMLValue("Eur"));
 		assertEquals(
 				"name: MyFirstAccount\n" +
 						"balance: 1000.00\n" +
 						"initial_balance: 1000.00\n" +
-						"currency: Eur\n", newAccount.toYML(""));
+						"currency: Eur", YMLWriter.write(newAccount.toYML()));
 	}
 
 	@Test

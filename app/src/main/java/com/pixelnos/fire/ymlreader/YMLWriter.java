@@ -1,12 +1,12 @@
 package com.pixelnos.fire.ymlreader;
 
 public class YMLWriter {
-    static public String write(YMLValue value){
+    static public String write(YMLValue value) {
         String yml = value.toString("");
-        if(yml.isEmpty()){
+        if (yml.isEmpty()) {
             return yml;
         }
-        return yml.substring(0,yml.length()-1);
+        return yml.substring(0, yml.length() - 1);
     }
 
 }

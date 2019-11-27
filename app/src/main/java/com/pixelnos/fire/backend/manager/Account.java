@@ -26,7 +26,7 @@ public class Account {
         }
     }
 
-    public Account(YMLValue yml, CurrencyFactory factory){
+    public Account(YMLValue yml, CurrencyFactory factory) {
         name = yml.get("name").asString();
         data.currency = factory.createFromYML(yml.get("currency"));
         data.balance = yml.get("balance").asDouble();
@@ -85,13 +85,13 @@ public class Account {
         data.balance = data.initialBalance;
     }
 
-    public String toYML(String shift) {
-        String yml = String.format(shift + "name: %s\n" +
-                        shift + "balance: %.2f\n" +
-                        shift + "initial_balance: %.2f\n" +
-                        shift + "currency: %s\n"
-                , name, data.balance, data.initialBalance, data.currency.toYML());
-        return yml;
+    public YMLValue toYML() {
+        YMLValue ymlAccount = new YMLValue();
+        ymlAccount.addEntry("name", new YMLValue(name));
+        ymlAccount.addEntry("balance", new YMLValue(String.format("%.2f",data.balance)));
+        ymlAccount.addEntry("initial_balance", new YMLValue(String.format("%.2f",data.initialBalance)));
+        ymlAccount.addEntry("currency", data.currency.toYML());
+        return ymlAccount;
     }
 
     private String toCSV() {

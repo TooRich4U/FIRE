@@ -26,7 +26,7 @@ public class YMLValue {
             if (getShift(line) == 0 && !line.isEmpty()) {
                 currentKey = addPreviousGatheredValue(childLines, currentKey);
                 if (line.contains("---")) {
-                    comments.put(keyOrder.get(keyOrder.size()-1), line);
+                    comments.put(keyOrder.get(keyOrder.size() - 1), line);
                 } else if (line.indexOf('-') >= 0) {
                     isArray = true;
                     line = line.substring(1).trim();
@@ -58,6 +58,7 @@ public class YMLValue {
 
     public YMLValue addEntry(String key, YMLValue newValue) {
         values.put(key, newValue);
+        keyOrder.add(key);
         return this;
     }
 
@@ -150,7 +151,7 @@ public class YMLValue {
             int indexOfEntry = 0;
             for (YMLValue entry : arrayValues) {
                 yml += shift + "-" + entry.toString(shift + "  ");
-                if(comments.containsKey(Integer.toString(indexOfEntry))){
+                if (comments.containsKey(Integer.toString(indexOfEntry))) {
                     yml += shift + comments.get(Integer.toString(indexOfEntry)) + "\n";
                 }
                 indexOfEntry += 1;
@@ -158,7 +159,7 @@ public class YMLValue {
         } else {
             for (String key : keyOrder) {
                 yml += shift + key + ":" + values.get(key).toString(shift + "  ");
-                if(comments.containsKey(key)){
+                if (comments.containsKey(key)) {
                     yml += shift + comments.get(key) + "\n";
                 }
             }

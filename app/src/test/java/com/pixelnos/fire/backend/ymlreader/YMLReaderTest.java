@@ -49,6 +49,33 @@ public class YMLReaderTest {
     }
 
     @Test
+    public void readComment(){
+        yml = "Test: 5\n"+
+                "--- # Tags of the transaction\n" +
+                "tags:\n" +
+                "  - Restaurant\n" +
+                "  - Food\n" +
+                "  - Extra Expenses\n";
+        YMLValue value = YMLReader.read(yml);
+        assertEquals(5.0, value.get("Test").asDouble());
+        assertEquals("Restaurant", value.get("tags").asArrayList().get(0).asString());
+    }
+
+    @Test
+    public void readWriteComment(){
+        yml = "Test: 5\n"+
+                "--- # Tags of the transaction\n" +
+                "tags:\n" +
+                "  - Restaurant\n" +
+                "  --- This is a very special kind of comment\n" +
+                "  - Food\n" +
+                "  - Extra Expenses";
+        YMLValue value = YMLReader.read(yml);
+        String newYML = YMLWriter.write(value);
+        assertEquals(yml, newYML);
+    }
+
+    @Test
     public void readEmptyString(){
         YMLValue value = YMLReader.read("");
         assertEquals("", value.asString());
@@ -73,5 +100,22 @@ public class YMLReaderTest {
         YMLValue value = new YMLValue();
         value.addEntry("testKey",new YMLValue("testValue"));
         assertEquals("testValue", value.get("testKey").asString());
+    }
+
+    @Test
+    public void addSeveralEntries(){
+        YMLValue value = new YMLValue();
+        value.addEntry("testKey",new YMLValue("testValue")).addEntry("testKey2", new YMLValue("testValue2"));
+        assertEquals("testValue2", value.get("testKey2").asString());
+    }
+
+    @Test
+    public void add(){
+        YMLValue value = new YMLValue();
+        try {
+            value.add(new YMLValue("testValue")).add(new YMLValue("testValue2"));
+        }
+        catch(Exception e){ }
+        assertEquals("testValue", value.asArrayList().get(0).asString());
     }
 }

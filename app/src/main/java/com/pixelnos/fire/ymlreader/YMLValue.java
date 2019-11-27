@@ -8,6 +8,8 @@ public class YMLValue {
     private String value = "";
     private boolean isArray = false;
     private ArrayList<String> keyOrder = new ArrayList<>();
+    private int arrayKey = 0;
+    private Hashtable<String, String> comments = new Hashtable<>();
 
     public YMLValue() {
     }
@@ -19,16 +21,17 @@ public class YMLValue {
     public YMLValue(ArrayList<String> lines) {
         ArrayList<String> childLines = new ArrayList<>();
         String currentKey = "";
-        int currentIndex = 0;
         for (int index = 0; index < lines.size(); index++) {
             String line = lines.get(index);
             if (getShift(line) == 0 && !line.isEmpty()) {
                 currentKey = addPreviousGatheredValue(childLines, currentKey);
-                if (line.indexOf('-') >= 0) {
+                if (line.contains("---")) {
+                    comments.put(keyOrder.get(keyOrder.size()-1), line);
+                } else if (line.indexOf('-') >= 0) {
                     isArray = true;
                     line = line.substring(1).trim();
-                    currentKey = Integer.toString(currentIndex);
-                    currentIndex += 1;
+                    currentKey = Integer.toString(arrayKey);
+                    arrayKey += 1;
                     childLines.add(line);
                 } else if (line.indexOf(':') >= 0) {
                     String[] data = line.trim().split(":");
@@ -53,8 +56,20 @@ public class YMLValue {
         }
     }
 
-    public void addEntry(String key, YMLValue newValue){
+    public YMLValue addEntry(String key, YMLValue newValue) {
         values.put(key, newValue);
+        return this;
+    }
+
+    public YMLValue add(YMLValue newValue) throws Exception {
+        if (isArray || (value.isEmpty() && values.isEmpty())) {
+            values.put(Integer.toString(arrayKey), newValue);
+            arrayKey += 1;
+            isArray = true;
+        } else {
+            throw new Exception("Cannot create array. HashMap already filled with values");
+        }
+        return this;
     }
 
     private String addPreviousGatheredValue(ArrayList<String> childLines, String currentKey) {
@@ -66,15 +81,14 @@ public class YMLValue {
                 values.put(currentKey, new YMLValue(childLines.get(0)));
             }
             childLines.clear();
-            currentKey = "";
         }
-        return currentKey;
+        return "";
     }
 
     private void addEntryFromSplit(String[] data) {
         String newValue = data[1];
         if (data.length > 2) {
-            for(int valueIndex = 2; valueIndex < data.length; valueIndex++){
+            for (int valueIndex = 2; valueIndex < data.length; valueIndex++) {
                 newValue += ":" + data[valueIndex];
             }
         }
@@ -86,7 +100,7 @@ public class YMLValue {
         return string.substring(2);
     }
 
-    int getShift(String string) {
+    private int getShift(String string) {
         int shift = 0;
         while (!string.isEmpty() && string.charAt(shift) == ' ') {
             shift += 1;
@@ -98,7 +112,7 @@ public class YMLValue {
         return values.get(key);
     }
 
-    public boolean isValue(){
+    public boolean isValue() {
         return !value.isEmpty();
     }
 
@@ -109,35 +123,44 @@ public class YMLValue {
     public ArrayList<YMLValue> asArrayList() {
         ArrayList<YMLValue> array = new ArrayList<>();
 
-        for(int index = 0; index < values.size(); index++){
+        for (int index = 0; index < values.size(); index++) {
             array.add(values.get(Integer.toString(index)));
         }
 
         return array;
     }
 
-    public String asString(){return value;}
+    public String asString() {
+        return value;
+    }
 
-    public String toString(String shift){
-        if(values.isEmpty()){
-            if(value.isEmpty()){
+    public String toString(String shift) {
+        if (values.isEmpty()) {
+            if (value.isEmpty()) {
                 return "";
             }
             return " " + value + "\n";
         }
         String yml = "\n";
-        if(shift.compareTo("") == 0){
+        if (shift.compareTo("") == 0) {
             yml = "";
         }
-        if(isArray){
+        if (isArray) {
             ArrayList<YMLValue> arrayValues = this.asArrayList();
-            for(YMLValue entry : arrayValues){
-                yml += shift + "-" + entry.toString(shift + "  ") ;
+            int indexOfEntry = 0;
+            for (YMLValue entry : arrayValues) {
+                yml += shift + "-" + entry.toString(shift + "  ");
+                if(comments.containsKey(Integer.toString(indexOfEntry))){
+                    yml += shift + comments.get(Integer.toString(indexOfEntry)) + "\n";
+                }
+                indexOfEntry += 1;
             }
-        }
-        else {
+        } else {
             for (String key : keyOrder) {
                 yml += shift + key + ":" + values.get(key).toString(shift + "  ");
+                if(comments.containsKey(key)){
+                    yml += shift + comments.get(key) + "\n";
+                }
             }
         }
         return yml;

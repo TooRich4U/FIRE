@@ -49,6 +49,15 @@ public class YMLReaderTest {
     }
 
     @Test
+    public void readInlineList(){
+        yml = "Test: 5\n"+
+                "tags:[Restaurant, Food, Extra Expenses]";
+        YMLValue value = YMLReader.read(yml);
+        assertEquals(5.0, value.get("Test").asDouble());
+        assertEquals("Restaurant", value.get("tags").asArrayList().get(0).asString());
+    }
+
+    @Test
     public void readComment(){
         yml = "Test: 5\n"+
                 "--- # Tags of the transaction\n" +

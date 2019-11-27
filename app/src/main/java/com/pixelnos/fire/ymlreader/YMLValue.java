@@ -15,7 +15,20 @@ public class YMLValue {
     }
 
     public YMLValue(String value) {
-        this.value = value.trim();
+        String tempValue = value.trim();
+        if (tempValue.charAt(0) == '[' && tempValue.charAt(tempValue.length() - 1) == ']') {
+            isArray = true;
+            tempValue = tempValue.substring(1, tempValue.length() - 2);
+            String[] elements = tempValue.split(",");
+            for (String element : elements) {
+                try {
+                    add(new YMLValue(element));
+                } catch (Exception e) {
+                }
+            }
+        } else {
+            this.value = value.trim();
+        }
     }
 
     public YMLValue(ArrayList<String> lines) {

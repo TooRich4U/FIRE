@@ -1,5 +1,8 @@
 package com.pixelnos.fire.backend.manager;
 
+import com.pixelnos.fire.ymlreader.YMLValue;
+import com.pixelnos.fire.ymlreader.YMLWriter;
+
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -34,7 +37,7 @@ public class WalletTest {
     }
 
     @Test
-    public void toYML(){
+    public void toYML() {
         Wallet wallet = new Wallet();
         Account account = Mockito.mock(Account.class);
         Account account2 = Mockito.mock(Account.class);
@@ -42,15 +45,41 @@ public class WalletTest {
         Mockito.when(account2.getName()).thenReturn("account2");
         wallet.add(account);
         wallet.add(account2);
-        Mockito.when(account.toYML(Mockito.anyString())).thenReturn("      account1");
-        Mockito.when(account2.toYML(Mockito.anyString())).thenReturn("      account2");
-        assertEquals(
-                "Wallet:\n" +
-                "  accounts:\n" +
-                "    -\n" +
-                "      account2\n" +
-                "    -\n" +
-                "      account1\n", wallet.toYML(""));
+        YMLValue accountYML2 = new YMLValue();
+        accountYML2.addEntry("name", new YMLValue("account2"));
+        YMLValue accountYML = new YMLValue();
+        accountYML.addEntry("name", new YMLValue("account1"));
+        Mockito.when(account.toYML()).thenReturn(accountYML);
+        Mockito.when(account2.toYML()).thenReturn(accountYML2);
+        String yml = "";
+        try {
+            yml = YMLWriter.write(wallet.toYML());
+        } catch (Exception e) {
+        }
+        assertEquals("accounts:\n" +
+                "  -\n" +
+                "    name: account2\n" +
+                "  -\n" +
+                "    name: account1", yml);
+    }
+
+    @Test
+    public void createWalletFromYML() {
+        String yml = "accounts:\n" +
+                "  -\n" +
+                "     account1\n" +
+                "  -\n" +
+                "     account2\n" +
+                "amount: 5648.85";
+        AccountFactory factory = Mockito.mock(AccountFactory.class);
+        Account account = Mockito.mock(Account.class);
+        Account account2 = Mockito.mock(Account.class);
+        Mockito.when(factory.createAccountFromYML(Mockito.any(YMLValue.class))).thenReturn(account).thenReturn(account2);
+        Mockito.when(account.getName()).thenReturn("account1");
+        Mockito.when(account2.getName()).thenReturn("account2");
+        Wallet wallet = new Wallet(factory, yml);
+        System.out.print(wallet.getAccounts().keySet());
+        assertEquals(2, wallet.getAccounts().size());
     }
 
 }

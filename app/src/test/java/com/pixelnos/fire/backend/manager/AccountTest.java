@@ -1,13 +1,18 @@
 package com.pixelnos.fire.backend.manager;
 
-import static org.junit.Assert.assertEquals;
+import com.pixelnos.fire.ymlreader.YMLReader;
+import com.pixelnos.fire.ymlreader.YMLValue;
+import com.pixelnos.fire.ymlreader.YMLWriter;
+
+import org.junit.Test;
+import org.mockito.Mockito;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 
-import org.junit.Test;
-import org.mockito.Mockito;
+import static org.junit.Assert.assertEquals;
 
 public class AccountTest {
 	
@@ -23,6 +28,24 @@ public class AccountTest {
 		assertEquals(Math.abs(accountBalanceAtTest),account.getData().balance,0.001);
 		assertEquals(Math.abs(accountBalanceAtTest),account.getData().balance,0.001);
 	}
+
+	@Test
+	public void createAccountFromYML() {
+	    String yml = "name: Savings\n"+
+                "currency: USD\n"+
+                "balance: 548.45\n"+
+                "initial_balance: 89.41";
+        YMLValue value = YMLReader.read(yml);
+        CurrencyFactory factory = Mockito.mock(CurrencyFactory.class);
+        Currency currency = Mockito.mock(Currency.class);
+        Mockito.when(factory.createFromYML(Mockito.any(YMLValue.class))).thenReturn(currency);
+		Account account = new Account(value, factory);
+		assertEquals("Savings", account.getName());
+		assertEquals(currency,account.getData().currency);
+		assertEquals(548.45,account.getData().balance,0.001);
+		assertEquals(89.41,account.getData().initialBalance,0.001);
+	}
+
 	@Test
 	public void addExpense() {
 		String newLocation = "Paris";
@@ -104,25 +127,14 @@ public class AccountTest {
 
 	@Test
 	public void toYML(){
-		Transaction transaction = Mockito.mock(Transaction.class);
-		Transaction transaction2 = Mockito.mock(Transaction.class);
 		Currency currency = Mockito.mock(Currency.class);
 		Account newAccount = new Account(accountNameAtTest,currency,1000.0);
-		newAccount.addDebit(transaction);
-		newAccount.addCredit(transaction2);
-		Mockito.when(currency.toYML()).thenReturn("Eur");
-		Mockito.when(transaction.toYML(Mockito.anyString())).thenReturn("      transaction1");
-		Mockito.when(transaction2.toYML(Mockito.anyString())).thenReturn("      transaction2");
+		Mockito.when(currency.toYML()).thenReturn(new YMLValue("Eur"));
 		assertEquals(
 				"name: MyFirstAccount\n" +
 						"balance: 1000.00\n" +
 						"initial_balance: 1000.00\n" +
-						"currency: Eur\n" +
-						"transactions:\n" +
-						"  - \n" +
-						"      transaction1\n" +
-						"  - \n" +
-						"      transaction2\n", newAccount.toYML(""));
+						"currency: Eur", YMLWriter.write(newAccount.toYML()));
 	}
 
 	@Test

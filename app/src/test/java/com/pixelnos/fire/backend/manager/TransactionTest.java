@@ -1,10 +1,11 @@
 package com.pixelnos.fire.backend.manager;
 
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
 
 public class TransactionTest {
 	@Test
@@ -23,7 +24,7 @@ public class TransactionTest {
 	}
 
 	@Test
-	public void toYML(){
+	public void toCSV(){
 		double newAmount = 345.8;
 		String newLocation = "Tokyo";
 		Date today = new Date();
@@ -32,11 +33,9 @@ public class TransactionTest {
 		descriptions.add("Food");
 		Transaction transaction = new Transaction(newAmount, newLocation, today, descriptions);
 		assertEquals(
-				"amount: 345.80\n" +
-						"location: Tokyo\n" +
-						"date: " + today.toString() + "\n" +
-						"tags:\n"+"  - " + descriptions.get(0)+"\n  - " + descriptions.get(1) +"\n",
-				transaction.toYML(""));
+				"345.80,Tokyo," + today.toString() + "," +
+						descriptions.get(0)+"|" + descriptions.get(1),
+				transaction.toCSV());
 	}
 
 }

@@ -13,13 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pixelnos.fire.R;
 
 
-public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder>{
-    private MyListData[] listdata;
+public class itemListAdapter extends RecyclerView.Adapter<itemListAdapter.ViewHolder>{
+    private DataList[] dataList;
+
 
     // RecyclerView recyclerView;
-    public MyListAdapter(MyListData[] listdata) {
-        this.listdata = listdata;
+    public itemListAdapter(DataList[] dataList) {
+        this.dataList = dataList;
     }
+
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -30,13 +33,13 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final MyListData myListData = listdata[position];
-        holder.textView.setText(listdata[position].getDescription());
-        holder.imageView.setImageResource(listdata[position].getImgId());
+        final DataList dataList = this.dataList[position];
+        holder.textView.setText(this.dataList[position].getDescription());
+        holder.imageView.setImageResource(this.dataList[position].getImgId());
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(),"click on item: "+myListData.getDescription(),Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(),"click on item: "+ dataList.getDescription(),Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -44,7 +47,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return listdata.length;
+        return dataList.length;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

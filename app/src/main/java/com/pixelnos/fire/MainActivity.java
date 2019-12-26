@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
     public static Wallet wallet = new Wallet();
     public static UserProfile user = new UserProfile(profileData, wallet);
 
-    Currency currency = new Currency("Euros", "EUR", "€", 1.10);
-    Account account = new Account("New Account1", currency,10000);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +43,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void createDummyAccount(){
-        user.getWallet().add(account);
-        Transaction transaction = new Transaction(1000,"Mars",new Date(),new ArrayList<String>());
-        account.addDebit(transaction);
+        Currency currency = new Currency("Euros", "EUR", "€", 1.10);
+        for(int i = 1; i < 15;i++) {
+            Account account = new Account("Account "+ i, currency, 10000*i);
+            Transaction transaction = new Transaction(1000,"Mars",new Date(),new ArrayList<String>());
+            account.addDebit(transaction);
+            user.getWallet().add(account);
+        }
     }
 
 }

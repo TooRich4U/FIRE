@@ -35,16 +35,18 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
-        Map<String, Account> accounts = MainActivity.user.getWallet().getAccounts();
-     //   for(Map.Entry<String, Account> account : accounts.entrySet()){
 
-     //   }
-        MyListData[] myListData = new MyListData[] {
-                new MyListData(MainActivity.user.getWallet().getAccountByName("New Account1").getName(), android.R.drawable.ic_dialog_email),
-                new MyListData("Map", android.R.drawable.ic_dialog_map),
-        };
+        Map<String, Account> accounts = MainActivity.user.getWallet().getAccounts();
+        DataList[] dataListData = new DataList[accounts.size()];
+        int i = 0;
+        for (Account account : accounts.values()) {
+            System.out.print("Accounts : " + account.getName());
+            dataListData[i] = new DataList(account.getName()+ " " + account.getData().balance + " " + account.getData().currency.getSymbol(),android.R.drawable.ic_dialog_email);
+            i++;
+        }
+
         RecyclerView recyclerView =  root.findViewById(R.id.recyclerView);
-        MyListAdapter adapter = new MyListAdapter(myListData);
+        itemListAdapter adapter = new itemListAdapter(dataListData);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);

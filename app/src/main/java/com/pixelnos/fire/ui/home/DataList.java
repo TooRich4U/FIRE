@@ -1,9 +1,9 @@
 package com.pixelnos.fire.ui.home;
 
-public class MyListData{
+public class DataList {
     private String description;
     private int imgId;
-    public MyListData(String description, int imgId) {
+    public DataList(String description, int imgId) {
         this.description = description;
         this.imgId = imgId;
     }

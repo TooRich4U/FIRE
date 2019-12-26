@@ -14,6 +14,8 @@ public class UserProfile {
         public double passiveIncomeTarget;
         public double fireTarget;
         public String currency;
+
+
     }
 
     public UserProfile(ProfileData newUserData, Wallet wallet) {

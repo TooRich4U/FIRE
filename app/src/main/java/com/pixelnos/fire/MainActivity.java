@@ -1,5 +1,6 @@
 package com.pixelnos.fire;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import com.pixelnos.fire.backend.manager.Currency;
 import com.pixelnos.fire.backend.manager.Transaction;
 import com.pixelnos.fire.backend.manager.UserProfile;
 import com.pixelnos.fire.backend.manager.Wallet;
+import com.pixelnos.fire.ui.login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,8 +32,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+
+        setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -42,12 +45,14 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
+        Intent menuIntent = new Intent(this, LoginActivity.class);
+        startActivity(menuIntent);
     }
     public void createDummyAccount(){
         user.getWallet().add(account);
         Transaction transaction = new Transaction(1000,"Mars",new Date(),new ArrayList<String>());
         account.addDebit(transaction);
     }
+
 
 }

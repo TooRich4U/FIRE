@@ -42,7 +42,7 @@ public class LoginDataSource {
         String string = readFromFile(this.context);
         try {
             JSONObject obj = new JSONObject(string);
-            return new LoggedInUser(obj.getString("id"), obj.getString("user"));
+            return new LoggedInUser(obj.getString("id"), obj.getString("user"), obj.getString("firstName"), obj.getString("lastName"));
         }
         catch (JSONException e) {
             throw new Exception(e.getMessage());
@@ -52,22 +52,38 @@ public class LoginDataSource {
     public Result<LoggedInUser> login(String username, String password) {
 
         try {
-            // TODO: handle loggedInUser authentication
-            LoggedInUser fakeUser =
-                    new LoggedInUser(
-                            java.util.UUID.randomUUID().toString(),
-                            username);
-            writeToFile("{\"user\":" + fakeUser.getDisplayName() +
-                    ", \"id\":" + fakeUser.getUserId() +
-                    ", \"connected\": true}", this.context);
-            return new Result.Success<>(fakeUser);
+            LoggedInUser user = getLoggedInUser();
+            if(user.getEmail() == username){
+                return new Result.Success<>(user);
+            }
+            return new Result.Error(new IOException("Error logging in"));
         } catch (Exception e) {
             return new Result.Error(new IOException("Error logging in", e));
         }
     }
 
-    public void logout() {
-        // TODO: revoke authentication
+    public Result<LoggedInUser> register(String username, String password, String firstName, String lastName) {
+
+        try {
+            LoggedInUser user =
+                    new LoggedInUser(java.util.UUID.randomUUID().toString(), username, firstName, lastName);
+            writeToFile("{\"user\":" + user.getDisplayName() +
+                    ", \"id\":" + user.getUserId() +
+                    ", \"firstName\":" + user.getFirstName() +
+                    ", \"lastName\":" + user.getLastName() +
+                    ", \"connected\": true}", this.context);
+            return new Result.Success<>(user);
+        } catch (Exception e) {
+            return new Result.Error(new IOException("Error logging in", e));
+        }
+    }
+
+    public void logout(LoggedInUser user) {
+        writeToFile("{\"user\":" + user.getDisplayName() +
+                ", \"id\":" + user.getUserId() +
+                ", \"firstName\":" + user.getFirstName() +
+                ", \"lastName\":" + user.getLastName() +
+                ", \"connected\": false}", this.context);
     }
 
     private void writeToFile(String data, Context context) {

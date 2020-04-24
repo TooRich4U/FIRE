@@ -50,7 +50,7 @@ public class LoginRepository {
 
     public void logout() {
         user = null;
-        dataSource.logout();
+        dataSource.logout(user);
     }
 
     private void setLoggedInUser(LoggedInUser user) {
@@ -63,6 +63,15 @@ public class LoginRepository {
     public Result<LoggedInUser> login(String username, String password) {
         // handle login
         Result<LoggedInUser> result = dataSource.login(username, password);
+        if (result instanceof Result.Success) {
+            setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
+        }
+        return result;
+    }
+
+    public Result<LoggedInUser> register(String username, String password, String firstName, String lastName) {
+        // handle login
+        Result<LoggedInUser> result = dataSource.register(username, password, firstName, lastName);
         if (result instanceof Result.Success) {
             setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
         }

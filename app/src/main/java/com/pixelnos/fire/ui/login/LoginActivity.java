@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.pixelnos.fire.R;
 import com.pixelnos.fire.ui.login.LoginViewModel;
 import com.pixelnos.fire.ui.login.LoginViewModelFactory;
+import com.pixelnos.fire.ui.register.RegisterActivity;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -37,6 +39,20 @@ import java.io.InputStreamReader;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+
+
+    public void displayRegisterForm(View view){
+        Intent menuIntent = new Intent(this, RegisterActivity.class);
+        startActivity(menuIntent);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (loginViewModel.isLoggedIn()) {
+            finish();
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

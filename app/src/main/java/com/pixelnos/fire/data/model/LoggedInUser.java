@@ -6,18 +6,32 @@ package com.pixelnos.fire.data.model;
 public class LoggedInUser {
 
     private String userId;
-    private String displayName;
+    private String firstName;
+    private String lastName;
+    private String email;
 
-    public LoggedInUser(String userId, String displayName) {
+    public LoggedInUser(String userId, String firstName, String email, String lastName) {
         this.userId = userId;
-        this.displayName = displayName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
     }
 
     public String getUserId() {
         return userId;
     }
 
+    public String getEmail() { return email; }
+
     public String getDisplayName() {
-        return displayName;
+        return firstName + " " + lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName(){
+        return lastName;
     }
 }

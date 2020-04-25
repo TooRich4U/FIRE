@@ -67,11 +67,11 @@ public class LoginDataSource {
         try {
             LoggedInUser user =
                     new LoggedInUser(java.util.UUID.randomUUID().toString(), username, firstName, lastName);
-            writeToFile("{\"user\":" + user.getDisplayName() +
-                    ", \"id\":" + user.getUserId() +
-                    ", \"firstName\":" + user.getFirstName() +
-                    ", \"lastName\":" + user.getLastName() +
-                    ", \"connected\": true}", this.context);
+            writeToFile("{\"user\": \"" + user.getDisplayName() + "\"," +
+                    " \"id\": \"" + user.getUserId() + "\"," +
+                    " \"firstName\": \"" + user.getFirstName() +"\"," +
+                    " \"lastName\": \"" + user.getLastName() +"\"," +
+                    " \"connected\": true}", this.context);
             return new Result.Success<>(user);
         } catch (Exception e) {
             return new Result.Error(new IOException("Error logging in", e));
